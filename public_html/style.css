@@ -13,3 +13,8 @@
     height: 20vh;
     width: 100%;
     position: center}
+
+.container .sticky-top {
+    margin-right: inherit !important;
+    padding-right: inherit !important;
+}
