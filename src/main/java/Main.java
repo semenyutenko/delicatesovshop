@@ -4,6 +4,8 @@ import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.HandlerList;
 import org.eclipse.jetty.server.handler.ResourceHandler;
 import org.eclipse.jetty.servlet.ServletContextHandler;
+import org.eclipse.jetty.servlet.ServletHolder;
+import servlets.ImageCardsServlet;
 
 @Log
 public class Main {
@@ -14,6 +16,7 @@ public class Main {
     public static void main(String[] args) throws Exception {
 
         ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
+        context.addServlet(new ServletHolder(new ImageCardsServlet()), ImageCardsServlet.IMAGE_CARD_PATH);
 
         ResourceHandler resourceHandler = new ResourceHandler();
         resourceHandler.setResourceBase(PUBLIC_DIR);
