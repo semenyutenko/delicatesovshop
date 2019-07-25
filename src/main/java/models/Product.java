@@ -12,7 +12,7 @@ public class Product {
     private String title;
     private Category category = Category.UNDEFINED;
     private double price = 0;
-    private int amount = 0;
+    private double amount = 0;
     private String description = "";
     private List<File> images;
     private Date productionDate;
@@ -46,11 +46,11 @@ public class Product {
         this.price = price;
     }
 
-    public int getAmount() {
+    public double getAmount() {
         return amount;
     }
 
-    public void setAmount(int amount) {
+    public void setAmount(double amount) {
         this.amount = amount;
     }
 
