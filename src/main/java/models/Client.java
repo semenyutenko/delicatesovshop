@@ -2,6 +2,7 @@ package models;
 
 public class Client {
 
+    private int clientId;
     private String name = "Unknown";
     private int phone;
     private String clientDescription = "";
@@ -17,6 +18,14 @@ public class Client {
     public Client(String name, int phone) {
         this.name = name;
         this.phone = phone;
+    }
+
+    public int getClientId() {
+        return clientId;
+    }
+
+    public void setClientId(int clientId) {
+        this.clientId = clientId;
     }
 
     public String getName() {

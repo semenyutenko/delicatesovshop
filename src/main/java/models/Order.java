@@ -4,8 +4,18 @@ import java.util.Date;
 
 public class Order {
 
+    private int orderId;
+
+    public int getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(int orderId) {
+        this.orderId = orderId;
+    }
+
     private Date orderDate;
-    private Date compliteDate;
+    private Date completeDate;
     private Client client;
     private Product product;
     private double amount = 0;
@@ -23,12 +33,12 @@ public class Order {
         this.orderDate = orderDate;
     }
 
-    public Date getCompliteDate() {
-        return compliteDate;
+    public Date getCompleteDate() {
+        return completeDate;
     }
 
-    public void setCompliteDate(Date compliteDate) {
-        this.compliteDate = compliteDate;
+    public void setCompleteDate(Date completeDate) {
+        this.completeDate = completeDate;
     }
 
     public Client getClient() {

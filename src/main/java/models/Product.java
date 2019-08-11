@@ -9,13 +9,13 @@ import java.util.List;
 
 public class Product {
 
+    private int productId;
     private String title;
-    private Category category = Category.UNDEFINED;
+    private String category;
     private double price = 0;
     private double amount = 0;
     private String description = "";
-    private List<File> images;
-    private Date productionDate;
+    private List<String> images;
 
     public Product(String title) {
         this.title = title;
@@ -26,15 +26,23 @@ public class Product {
         return title;
     }
 
+    public int getProductId() {
+        return productId;
+    }
+
+    public void setProductId(int productId) {
+        this.productId = productId;
+    }
+
     public void setTitle(String title) {
         this.title = title;
     }
 
-    public Category getCategory() {
+    public String getCategory() {
         return category;
     }
 
-    public void setCategory(Category category) {
+    public void setCategory(String category) {
         this.category = category;
     }
 
@@ -62,41 +70,21 @@ public class Product {
         this.description = description;
     }
 
-    public List<File> getImages() {
+    public List<String> getImages() {
         if(images == null){
-            images = new ArrayList<File>();
+            images = new ArrayList<String>();
         }
         return images;
     }
 
-    public void setImages(List<File> images) {
+    public void setImages(List<String> images) {
         this.images = images;
     }
 
-    public void addImage(File image){
+    public void addImage(String image){
         if (images == null){
-            images = new ArrayList<File>();
+            images = new ArrayList<String>();
         }
         images.add(image);
-    }
-
-    public Date getProductionDate() {
-        return productionDate;
-    }
-
-    public void setProductionDate(Date productionDate) {
-        this.productionDate = productionDate;
-    }
-
-    public enum Category{
-        DRY_CURED("сыровяленые"), BOILED("варёные"), UNDEFINED ("неопределенно");
-
-        private String name;
-
-        Category(String name){
-            this.name = name;
-        }
-
-        public String getName(){return name;}
     }
 }

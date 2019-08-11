@@ -1,3 +1,4 @@
+import dbservice.DBService;
 import lombok.extern.java.Log;
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
@@ -14,6 +15,9 @@ public class Main {
     private static final int PORT = 8080;
 
     public static void main(String[] args) throws Exception {
+
+        DBService dbService = new DBService();
+        dbService.printConnectionInfo();
 
         ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
         context.addServlet(new ServletHolder(new ImageCardsServlet()), ImageCardsServlet.IMAGE_CARD_PATH);
