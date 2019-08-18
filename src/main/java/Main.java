@@ -1,37 +1,43 @@
-import dbservice.DBService;
+import dao.DAOImpl0;
+import dbservice.DBServiceImpl0;
+import dbservice.IDBService;
 import lombok.extern.java.Log;
-import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
-import org.eclipse.jetty.server.handler.HandlerList;
-import org.eclipse.jetty.server.handler.ResourceHandler;
-import org.eclipse.jetty.servlet.ServletContextHandler;
-import org.eclipse.jetty.servlet.ServletHolder;
 import servlets.ImageCardsServlet;
+
+import java.sql.*;
 
 @Log
 public class Main {
 
-    private static final String PUBLIC_DIR = "public_html";
+
     private static final int PORT = 8080;
 
     public static void main(String[] args) throws Exception {
 
-        DBService dbService = new DBService();
-        dbService.printConnectionInfo();
+        Connection connection = getPGConnection();
+        final IDBService dbService = new DBServiceImpl0(new DAOImpl0(connection));
 
-        ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
-        context.addServlet(new ServletHolder(new ImageCardsServlet()), ImageCardsServlet.IMAGE_CARD_PATH);
+        Server server = new ServerBuilder(PORT)
+                .addServlet(new ImageCardsServlet(), ImageCardsServlet.IMAGE_CARD_PATH)
+                .build();
 
-        ResourceHandler resourceHandler = new ResourceHandler();
-        resourceHandler.setResourceBase(PUBLIC_DIR);
-
-        HandlerList handlerList = new HandlerList();
-        handlerList.setHandlers(new Handler[]{resourceHandler, context});
-
-        Server server = new Server(PORT);
-        server.setHandler(handlerList);
         server.start();
         log.info("The server has started");
         server.join();
+    }
+
+    public static Connection getPGConnection() {
+        try {
+            String url = "jdbc:postgresql://localhost:5432/delicatesov";
+            String name = "pgdelicatesov";
+            String pass = "as58key3024";
+
+            Connection connection = DriverManager.getConnection(url, name, pass);
+            return connection;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }
