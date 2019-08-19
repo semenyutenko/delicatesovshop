@@ -1,6 +1,5 @@
 import dao.DAOImpl0;
-import dbservice.DBServiceImpl0;
-import dbservice.IDBService;
+import dao.IDAO;
 import lombok.extern.java.Log;
 import org.eclipse.jetty.server.Server;
 import servlets.ImageCardsServlet;
@@ -15,8 +14,8 @@ public class Main {
 
     public static void main(String[] args) throws Exception {
 
-        Connection connection = getPGConnection();
-        final IDBService dbService = new DBServiceImpl0(new DAOImpl0(connection));
+        final Connection connection = getPGConnection();
+        final IDAO dao = new DAOImpl0(connection);
 
         Server server = new ServerBuilder(PORT)
                 .addServlet(new ImageCardsServlet(), ImageCardsServlet.IMAGE_CARD_PATH)
