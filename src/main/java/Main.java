@@ -22,7 +22,7 @@ public class Main {
                 .build();
 
         server.start();
-        log.info("The server has started");
+        log.info("The server has been started");
         server.join();
     }
 
