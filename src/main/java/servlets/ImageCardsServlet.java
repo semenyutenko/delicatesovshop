@@ -15,7 +15,7 @@ public class ImageCardsServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        ImageInsertor.insertImage(resp, "tongue.jpg");
+        ImageInsertor.insertImage(resp, req.getParameter("image") + ".jpg");
         log.info("The image is downloaded");
     }
 }
