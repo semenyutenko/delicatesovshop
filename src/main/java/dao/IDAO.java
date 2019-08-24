@@ -7,12 +7,6 @@ import java.util.List;
 
 public interface IDAO {
 
-    List<Account> findAccounts();
-    List<Account> findAccountsByClient(int clientId);
-    Account findAccountByUserName(String userName);
-    void addAccount(Account account);
-    void updateAccount(Account account);
-
     List<Category> findCategories();
     Category findCategoryById(int categoryId);
     void addCategory(Category category);
@@ -36,7 +30,7 @@ public interface IDAO {
     List<Order> findOrders();
     List<Order> findOrdersByOrderDate(Date orderDate);
     List<Order> findOrdersByCompleteDate(Date completeDate);
-    List<Order> findOrdersBy
+    List<Order> findOrdersByClient(Client client);
 
 
 
