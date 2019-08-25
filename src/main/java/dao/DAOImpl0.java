@@ -13,107 +13,108 @@ public class DAOImpl0 implements IDAO {
         this.connection = connection;
     }
 
-    public List<Account> findAccounts() {
-        return null;
-    }
-
-    public List<Account> findAccountsByClient(int clientId) {
-        return null;
-    }
-
-    public Account findAccountByUserName(String userName) {
-        return null;
-    }
-
-    public void addAccount(Account account) {
-
-    }
-
-    public void updateAccount(Account account) {
-
-    }
-
+    @Override
     public List<Category> findCategories() {
         return null;
     }
 
+    @Override
     public Category findCategoryById(int categoryId) {
         return null;
     }
 
+    @Override
     public void addCategory(Category category) {
 
     }
 
+    @Override
     public void updateCategory(Category category) {
 
     }
 
+    @Override
     public List<Client> findClients() {
         return null;
     }
 
+    @Override
     public List<Client> findClientsByName(String name) {
         return null;
     }
 
+    @Override
     public List<Client> findClientsByPhone(int phone) {
         return null;
     }
 
+    @Override
     public Client findClientById(int clientId) {
         return null;
     }
 
+    @Override
     public void addClient(Client client) {
 
     }
 
+    @Override
     public void updateClient(Client client) {
 
     }
 
+    @Override
     public List<Comment> findComments() {
         return null;
     }
 
+    @Override
     public List<Comment> findCommentsByProductId(int productId) {
         return null;
     }
 
+    @Override
     public List<Comment> findCommentsByClientId(int clientId) {
         return null;
     }
 
+    @Override
     public List<Comment> findCommentsByDate(Date date) {
         return null;
     }
 
+    @Override
     public Comment findCommentById(int commentId) {
         return null;
     }
 
+    @Override
     public void addComment(Comment comment) {
 
     }
 
+    @Override
     public void updateComment(Comment comment) {
 
     }
 
+    @Override
     public List<Order> findOrders() {
         return null;
     }
 
+    @Override
     public List<Order> findOrdersByOrderDate(Date orderDate) {
         return null;
     }
 
+    @Override
     public List<Order> findOrdersByCompleteDate(Date completeDate) {
         return null;
     }
 
-    public List<Order> findOrdersBy() {
+    @Override
+    public List<Order> findOrdersByClient(Client client) {
         return null;
     }
 }
