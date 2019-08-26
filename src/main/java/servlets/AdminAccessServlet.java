@@ -2,18 +2,19 @@ package servlets;
 
 
 import config.Context;
+import lombok.extern.java.Log;
 import templater.PageGenerator;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+import javax.servlet.http.*;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+@Log
 public class AdminAccessServlet extends HttpServlet {
     public static final String ADMIN_ACCESS_PATH = "/admin";
 
@@ -29,12 +30,22 @@ public class AdminAccessServlet extends HttpServlet {
         resp.setContentType("text/html;charset=utf-8");
         resp.setStatus(HttpServletResponse.SC_OK);
         Map<String, Object> pageVariables = getPageVariables(req);
-        for(Cookie cookie : cookies){
-            if(cookie.getName() == "accessToken" && cookie.getValue() == context.getAccessToken()){
-                resp.getWriter().println(context.getPageGenerator().getPage("", pageVariables));
-                return;
+        if(cookies != null){
+            for(Cookie cookie : cookies){
+                if(cookie.getName() == "accessToken" && cookie.getValue() == context.getAccessToken()){
+                    resp.getWriter().println(context.getPageGenerator().getPage("", pageVariables));
+                    return;
+                }
             }
         }
+        HttpSession session = req.getSession();
+        if(session == null){
+            log.warning("There isn't any session");
+        }else {log.info("The session's number is " + session.getId());
+            session.setAttribute("pass", "hellboy");
+            log.info("pass: " + session.getAttribute("pass"));
+        }
+
         resp.getWriter().println(context.getPageGenerator().getPage("admin_access.html", pageVariables));
 
     }

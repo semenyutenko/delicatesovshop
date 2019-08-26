@@ -37,7 +37,6 @@ public class Context {
 
             this.connection = DriverManager.getConnection(urlDB, nameDB, passDB);
             log.info("Database was connected");
-            printConnectInfo();
         } catch (SQLException e) {
             e.printStackTrace();
             log.warning("Database wasn't connected");

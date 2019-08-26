@@ -26,8 +26,6 @@ public class PageGenerator {
     public String getPage(String fileName, Map<String, Object> data){
         Writer stream = new StringWriter();
         try{
-            System.out.println(File.separator);
-            System.out.println(TEMPLATES_DIR + File.separator + fileName);
             Template template = cfg.getTemplate(fileName);
             template.process(data, stream);
         }catch (IOException | TemplateException e){
