@@ -19,7 +19,7 @@ public class Main {
 
         Server server = new ServerBuilder(PORT)
                 .addServlet(new ImageCardsServlet(), ImageCardsServlet.IMAGE_CARD_PATH)
-                .addServlet(new AdminAccessServlet(context), AdminAccessServlet.ADMIN_ACCESS_PATH)
+                .addServlet(new AdminAccessServlet(), AdminAccessServlet.ADMIN_ACCESS_PATH)
                 .build();
 
         server.start();
