@@ -11,7 +11,6 @@ import java.io.Writer;
 import java.util.Map;
 
 public class PageGenerator {
-    private final String TEMPLATES_DIR;
 
     private static PageGenerator generator;
     private final Configuration cfg;
@@ -35,7 +34,6 @@ public class PageGenerator {
     }
 
     private PageGenerator(String templatesDir){
-        TEMPLATES_DIR = templatesDir;
         this.cfg = new Configuration(Configuration.VERSION_2_3_29);
         try {
             cfg.setDirectoryForTemplateLoading(new File(templatesDir));

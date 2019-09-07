@@ -5,9 +5,7 @@ import dao.IDAO;
 import lombok.extern.java.Log;
 import templater.PageGenerator;
 
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -18,10 +16,13 @@ public class Context {
     private final Properties properties = new Properties();
 
     private Connection connection;
+    private Crypto crypto;
+    private String salt = "zMdB#T8712";
+    private File propFile;
 
 
-    public Context(String propAddress){
-        File propFile = new File(propAddress);
+    public Context(String propAddress) throws IOException {
+        propFile = new File(propAddress);
         try {
             properties.load(new FileReader(propFile));
             log.info("Properties is loaded");
@@ -41,6 +42,9 @@ public class Context {
             e.printStackTrace();
             log.warning("Database wasn't connected");
         }
+
+        crypto = new Crypto(salt);
+        setAdminPass("as1500");
     }
 
     public int getServerPort(){
@@ -50,10 +54,26 @@ public class Context {
     public IDAO getDao(){
         return new DAOImpl0(this.connection);
     }
-    public String getAccessToken(){return this.properties.getProperty("accessToken");}
     public PageGenerator getPageGenerator(){
         return PageGenerator.instance(this.properties.getProperty("templatesDir"));
     }
+
+    public void setAdminSession(String session) throws IOException {
+        properties.setProperty("adminSession", String.valueOf(crypto.cryptIt(session)));
+        properties.store(new FileOutputStream(propFile), null);
+    }
+    public void setAdminPass(String pass) throws IOException {
+        properties.setProperty("adminPass", String.valueOf(crypto.cryptIt(pass)));
+        properties.store(new FileOutputStream(propFile), null);    }
+    public boolean checkSession(String session){
+        return properties.getProperty("adminSession", "no session").equals(crypto.cryptIt(session));
+    }
+    public boolean checkPass(String pass){
+        return properties.getProperty("adminPass").equals(crypto.cryptIt(pass));
+    }
+
+
+
 
     public void printConnectInfo() {
         try {
@@ -63,6 +83,21 @@ public class Context {
             System.out.println("Autocommit: " + connection.getAutoCommit());
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+    }
+
+    private class Crypto {
+        private String salt;
+
+        private Crypto(String salt) {
+            this.salt = salt;
+        }
+
+        private int cryptIt(String word){
+            String saltWord = word + salt;
+            Integer h1 = saltWord.hashCode();
+            h1.hashCode();
+            return h1;
         }
     }
 }

@@ -8,7 +8,7 @@ import java.io.*;
 
 public class ImageInsertor {
 
-    public static final String IMAGE_FOLDER= "./public_html/images/";
+    public static final String IMAGE_FOLDER= "./public_html/assets/img/";
 
     public static void insertImage(HttpServletResponse resp, String path) throws IOException {
         resp.setContentType("image/jpg");
