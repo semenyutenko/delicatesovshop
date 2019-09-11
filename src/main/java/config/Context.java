@@ -17,7 +17,7 @@ public class Context {
 
     private Connection connection;
     private Crypto crypto;
-    private String salt = "zMdB#T8712";
+    private final String SALT = "zMdB#T8712";
     private File propFile;
 
 
@@ -43,8 +43,7 @@ public class Context {
             log.warning("Database wasn't connected");
         }
 
-        crypto = new Crypto(salt);
-        setAdminPass("as1500");
+        crypto = new Crypto(SALT);
     }
 
     public int getServerPort(){
@@ -59,17 +58,17 @@ public class Context {
     }
 
     public void setAdminSession(String session) throws IOException {
-        properties.setProperty("adminSession", String.valueOf(crypto.cryptIt(session)));
+        properties.setProperty("adminSession", "" + crypto.cryptIt(session));
         properties.store(new FileOutputStream(propFile), null);
     }
     public void setAdminPass(String pass) throws IOException {
-        properties.setProperty("adminPass", String.valueOf(crypto.cryptIt(pass)));
+        properties.setProperty("adminPass", "" + crypto.cryptIt(pass));
         properties.store(new FileOutputStream(propFile), null);    }
     public boolean checkSession(String session){
-        return properties.getProperty("adminSession", "no session").equals(crypto.cryptIt(session));
+        return properties.getProperty("adminSession", "no session").equals("" + crypto.cryptIt(session));
     }
     public boolean checkPass(String pass){
-        return properties.getProperty("adminPass").equals(crypto.cryptIt(pass));
+        return properties.getProperty("adminPass").equals("" + crypto.cryptIt(pass));
     }
 
 
@@ -93,11 +92,12 @@ public class Context {
             this.salt = salt;
         }
 
-        private int cryptIt(String word){
+        private long cryptIt(String word){
             String saltWord = word + salt;
-            Integer h1 = saltWord.hashCode();
-            h1.hashCode();
-            return h1;
+            long h1 = saltWord.hashCode();
+            long h2= word.hashCode();
+            long cryptWord = Math.abs(h1 * h2 / 100);
+            return cryptWord;
         }
     }
 }

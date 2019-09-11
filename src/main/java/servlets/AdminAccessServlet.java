@@ -1,15 +1,15 @@
 package servlets;
 
 import config.Context;
+import lombok.extern.java.Log;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.*;
 import java.io.IOException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-
+@Log
 public class AdminAccessServlet extends HttpServlet {
     public static final String ADMIN_ACCESS_PATH = "/admin";
     private Context context;
@@ -20,15 +20,42 @@ public class AdminAccessServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String session = req.getSession().getId();
-        if (!context.checkSession(session)){
-            resp.sendRedirect("admin.html");
+        HttpSession session = req.getSession();
+        Cookie cookie = new Cookie("JSESSIONID", session.getId());
+        cookie.setMaxAge(86400);
+        cookie.setHttpOnly(true);
+        resp.addCookie(cookie);
+
+        if (context.checkSession(cookie.getValue())){
+            Map<String, Object> map = new HashMap<>();
+            resp.setContentType("text/html;charset=utf-8");
+            resp.setStatus(HttpServletResponse.SC_OK);
+            resp.getWriter().println(context.getPageGenerator().getPage("admin-panel.html", map));
         }else {
             Map<String, Object> map = new HashMap<>();
             resp.setContentType("text/html;charset=utf-8");
             resp.setStatus(HttpServletResponse.SC_OK);
-            resp.getWriter().println(context.getPageGenerator().getPage("admin_panel.html", map));
+            resp.getWriter().println(context.getPageGenerator().getPage("admin-access.html", map));
+        }
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String pass = req.getParameter("pass");
+        HttpSession session = req.getSession();
+        String sessionId = session.getId();
+
+        long lastAccessTime = session.getLastAccessedTime();
+        long currentTime;
+        do{
+            currentTime = new Date().getTime();
+        }while ((currentTime - lastAccessTime) / 1000 < 10);
+
+        if (context.checkPass(pass)){
+            context.setAdminSession(sessionId);
         }
 
+        resp.setStatus(HttpServletResponse.SC_SEE_OTHER);
+        resp.sendRedirect("/admin");
     }
 }
