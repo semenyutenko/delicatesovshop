@@ -149,26 +149,26 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body">
-                    <form name="add_client">
-                        <div class="form-group">
-                            <label for="client_name">Имя клиента</label>
-                            <input class="form-control" type="tel" id="client_name" name="phone">
-                        </div>
-                        <div class="form-group">
-                            <label for="client_phone">Телефон клиента</label>
-                            <input class="form-control" type="tel" id="client_phone" name="phone">
-                        </div>
-                        <div class="form-group">
-                            <label for="client_comment">Комментарий</label>
-                            <textarea class="form-control" id="client_comment" rows="3"></textarea>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Добавить клиента</button>
-                </div>
+                <form id="new_client">
+                    <div class="modal-body">
+                            <div class="form-group">
+                                <label for="client_name">Имя клиента</label>
+                                <input class="form-control" type="tel" id="client_name" name="name">
+                            </div>
+                            <div class="form-group">
+                                <label for="client_phone">Телефон клиента</label>
+                                <input class="form-control" type="tel" id="client_phone" name="phone">
+                            </div>
+                            <div class="form-group">
+                                <label for="client_comment">Комментарий</label>
+                                <textarea class="form-control" id="client_comment" rows="3"></textarea>
+                            </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Добавить клиента</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -180,5 +180,17 @@
 </footer>
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script></body>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script>
+    document.querySelector("#new_client").onsubmit = async (e) =>{
+        e.preventDefault();
+        let urlString = "/new-client?name=" + document.querySelector("#client_name").value + "&phone="
+            + document.querySelector("#client_phone").value + "&comment="
+            + document.querySelector("#client_comment").value;
+        let response = await fetch(urlString);
+        let result = await response.text();
+        alert(result);
+    }
+</script>
+</body>
 </html>

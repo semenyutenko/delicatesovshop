@@ -44,6 +44,7 @@ public class AdminAccessServlet extends HttpServlet {
         String pass = req.getParameter("pass");
         HttpSession session = req.getSession();
         String sessionId = session.getId();
+        resp.setStatus(HttpServletResponse.SC_SEE_OTHER);
 
         long lastAccessTime = session.getLastAccessedTime();
         long currentTime;
@@ -53,9 +54,12 @@ public class AdminAccessServlet extends HttpServlet {
 
         if (context.checkPass(pass)){
             context.setAdminSession(sessionId);
+            resp.sendRedirect("/admin");
+        }else {
+            resp.sendRedirect("/admin?pass=incorrect");
         }
 
-        resp.setStatus(HttpServletResponse.SC_SEE_OTHER);
-        resp.sendRedirect("/admin");
+
+
     }
 }

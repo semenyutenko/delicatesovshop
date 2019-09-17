@@ -6,6 +6,7 @@ import org.eclipse.jetty.server.Server;
 import service.ServerBuilder;
 import servlets.AdminAccessServlet;
 import servlets.ImageCardsServlet;
+import servlets.NewClientServlet;
 
 @Log
 public class Main {
@@ -20,6 +21,7 @@ public class Main {
         Server server = new ServerBuilder(PORT)
                 .addServlet(new ImageCardsServlet(), ImageCardsServlet.IMAGE_CARD_PATH)
                 .addServlet(new AdminAccessServlet(context), AdminAccessServlet.ADMIN_ACCESS_PATH)
+                .addServlet(new NewClientServlet(), NewClientServlet.NEW_CLIENT_PATH)
                 .build();
 
         server.start();

@@ -23,6 +23,7 @@ public class Context {
 
     public Context(String propAddress) throws IOException {
         propFile = new File(propAddress);
+        crypto = new Crypto(SALT);
         try {
             properties.load(new FileReader(propFile));
             log.info("Properties is loaded");
@@ -34,7 +35,8 @@ public class Context {
         try {
             String urlDB = properties.getProperty("urlDB");
             String nameDB = properties.getProperty("nameDB");
-            String passDB = properties.getProperty("passDB");
+            String passDB = String.valueOf(crypto.cryptIt(properties.getProperty("passDB")));
+            log.info("PassDB: " + passDB);
 
             this.connection = DriverManager.getConnection(urlDB, nameDB, passDB);
             log.info("Database was connected");
@@ -43,7 +45,7 @@ public class Context {
             log.warning("Database wasn't connected");
         }
 
-        crypto = new Crypto(SALT);
+
     }
 
     public int getServerPort(){
