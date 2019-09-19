@@ -184,7 +184,7 @@
 <script>
     document.querySelector("#new_client").onsubmit = async (e) =>{
         e.preventDefault();
-        let urlString = "/new-client?name=" + document.querySelector("#client_name").value + "&phone="
+        let urlString = "/add-client?name=" + document.querySelector("#client_name").value + "&phone="
             + document.querySelector("#client_phone").value + "&comment="
             + document.querySelector("#client_comment").value;
         let response = await fetch(urlString);

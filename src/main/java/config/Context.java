@@ -1,8 +1,7 @@
 package config;
 
-import dao.DAOImpl0;
-import dao.IDAO;
 import lombok.extern.java.Log;
+import service.Executor;
 import templater.PageGenerator;
 
 import java.io.*;
@@ -36,7 +35,6 @@ public class Context {
             String urlDB = properties.getProperty("urlDB");
             String nameDB = properties.getProperty("nameDB");
             String passDB = String.valueOf(crypto.cryptIt(properties.getProperty("passDB")));
-            log.info("PassDB: " + passDB);
 
             this.connection = DriverManager.getConnection(urlDB, nameDB, passDB);
             log.info("Database was connected");
@@ -52,11 +50,12 @@ public class Context {
         return Integer.parseInt(properties.getProperty("serverPort"));
     }
 
-    public IDAO getDao(){
-        return new DAOImpl0(this.connection);
-    }
     public PageGenerator getPageGenerator(){
         return PageGenerator.instance(this.properties.getProperty("templatesDir"));
+    }
+
+    public Executor getExecutor(){
+        return new Executor(connection);
     }
 
     public void setAdminSession(String session) throws IOException {
