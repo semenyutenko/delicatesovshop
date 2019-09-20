@@ -23,8 +23,8 @@ public class Context {
     public Context(String propAddress) throws IOException {
         propFile = new File(propAddress);
         crypto = new Crypto(SALT);
-        try {
-            properties.load(new FileReader(propFile));
+        try(FileReader reader = new FileReader(propFile)) {
+            properties.load(reader);
             log.info("Properties is loaded");
         } catch (IOException e) {
             e.printStackTrace();

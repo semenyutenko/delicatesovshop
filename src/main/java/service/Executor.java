@@ -12,21 +12,25 @@ public class Executor {
         this.connection = connection;
     }
 
-    public void execUpdate(String update) throws SQLException {
-        Statement statement = connection.createStatement();
-        statement.execute(update);
-        statement.close();
+    public void execUpdate(String update){
+        try (Statement statement = connection.createStatement()){
+            statement.execute(update);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
     }
 
-    public <T> T execQuery(String query, ResultHandler<T> handler) throws SQLException{
-
-        Statement statement = connection.createStatement();
-        statement.execute(query);
-        ResultSet result = statement.getResultSet();
-        T value = handler.handle(result);
-        result.close();
-        statement.close();
-
+    public <T> T execQuery(String query, ResultHandler<T> handler){
+        T value;
+        try (Statement statement = connection.createStatement()){
+            statement.execute(query);
+            ResultSet result = statement.getResultSet();
+            value = handler.handle(result);
+        } catch (SQLException e) {
+            value = null;
+            e.printStackTrace();
+        }
         return value;
     }
 }
