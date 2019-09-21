@@ -35,6 +35,7 @@ public class Context {
             String urlDB = properties.getProperty("urlDB");
             String nameDB = properties.getProperty("nameDB");
             String passDB = String.valueOf(crypto.cryptIt(properties.getProperty("passDB")));
+            log.info("Pass is: " + passDB);
 
             this.connection = DriverManager.getConnection(urlDB, nameDB, passDB);
             log.info("Database was connected");

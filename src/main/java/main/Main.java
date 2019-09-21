@@ -8,6 +8,7 @@ import service.ServerBuilder;
 import servlets.AdminAccessServlet;
 import servlets.ImageCardsServlet;
 import servlets.AddClientServlet;
+import servlets.UpdateAdminServlet;
 
 import java.sql.SQLException;
 
@@ -26,6 +27,7 @@ public class Main {
                 .addServlet(new ImageCardsServlet(), ImageCardsServlet.IMAGE_CARD_PATH)
                 .addServlet(new AdminAccessServlet(context), AdminAccessServlet.ADMIN_ACCESS_PATH)
                 .addServlet(new AddClientServlet(context), AddClientServlet.NEW_CLIENT_PATH)
+                .addServlet(new UpdateAdminServlet(context), UpdateAdminServlet.UPDATE_ADMIN_PATh)
                 .build();
 
         server.start();
@@ -37,8 +39,8 @@ public class Main {
         Executor executor = context.getExecutor();
         executor.execUpdate("create table if not exists public.clients " +
                 "(client_id serial NOT NULL, client_name character varying(250) NOT NULL, " +
-                "client_phone character varying(20)[] NOT NULL, client_comment text, " +
-                "PRIMARY KEY (client_id)) ");
+                "client_phone character varying(20) NOT NULL, client_comment character varying, " +
+                "PRIMARY KEY (client_id))");
     }
 
 }

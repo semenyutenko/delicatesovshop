@@ -26,19 +26,34 @@ public class AddClientServlet extends HttpServlet {
     }
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException{
         HttpSession session = req.getSession();
         Executor executor = context.getExecutor();
-        String update = "insert into clients (client_name, client_phone, client_comment) values('" +
-                req.getParameter("name") + "', '" + req.getParameter("phone") + "', '" +
-                req.getParameter("comment") + "');";
-        try {
-            executor.execUpdate(update);
-            log.info("Строка: " + update + " выполнена");
-        } catch (SQLException e) {
-            log.warning("Не прошло добавление клиента");
-            e.printStackTrace();
+        resp.setStatus(HttpServletResponse.SC_OK);
+        resp.setContentType("text/html;charset=utf-8");
+        String name = req.getParameter("name");
+        String phone = req.getParameter("phone");
+
+        if(!context.checkSession(session.getId())){
+            resp.getWriter().println("У ВАС НЕТ ДОСТУПА К ЭТОЙ ОПЕРАЦИИ");
+            return;
+        }
+        if(name.equals("")){
+            resp.getWriter().println("ВЫ НЕ УКАЗАЛИ ИМЯ КЛИЕНТА");
+            return;
+        }
+        if(phone.equals("")){
+            resp.getWriter().println("ВЫ НЕ УКАЗАЛИ НОМЕР ТЕЛЕФОНА КЛИЕНТА");
+            return;
         }
 
+        String update = "insert into clients (client_name, client_phone, client_comment) values('" +
+                name + "', '" + phone + "', '" + req.getParameter("comment") + "');";
+        int updated = executor.execUpdate(update);
+        if(updated != 1){
+            resp.getWriter().println("КЛИЕНТ НЕ БЫЛ ДОБАВЛЕН. ПОПРОБУЙТЕ ПОЗЖЕ");
+        }else {
+            resp.getWriter().println("КЛИЕНТ ДОБАВЛЕН");
+        }
     }
 }

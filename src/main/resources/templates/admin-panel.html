@@ -182,14 +182,25 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 <script>
+    update("clients");
+
+    async function update(parametr){
+        let urlString = "/update_admin?area=" + parametr;
+        let htmlText = await request(urlString);
+    }
+
     document.querySelector("#new_client").onsubmit = async (e) =>{
         e.preventDefault();
         let urlString = "/add-client?name=" + document.querySelector("#client_name").value + "&phone="
             + document.querySelector("#client_phone").value + "&comment="
             + document.querySelector("#client_comment").value;
+        alert(await request(urlString));
+    }
+
+    async function request(urlString) {
         let response = await fetch(urlString);
         let result = await response.text();
-        alert(result);
+        return result;
     }
 </script>
 </body>
