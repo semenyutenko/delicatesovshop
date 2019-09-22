@@ -7,26 +7,22 @@
 <body>
 <header>
     <nav class="navbar navbar-expand-sm navbar-dark bg-primary sticky-top">
-        <button class="navbar-toggler nav" type="button" data-toggle="collapse" data-target="#navbar1" aria-controls="navbar1" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-
         <div class="collapse navbar-collapse" id="navbar1">
             <ul class="navbar-nav nav mr-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="#clients" data-toggle="tab">Клиенты</a>
+                    <a id="tab_clients" class="nav-link" href="#clients" data-toggle="tab">Клиенты</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#products" data-toggle="tab">Продукты</a>
+                    <a id="tab_products" class="nav-link" href="#products" data-toggle="tab">Продукты</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#orders" data-toggle="tab">Заказы</a>
+                    <a id="tab_orders" class="nav-link" href="#orders" data-toggle="tab">Заказы</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Категории</a>
+                    <a id="tab_categories" class="nav-link" href="#">Категории</a>
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Отчёты</a>
+                    <a id="tab_reports" class="nav-link dropdown-toggle" href="#" id="navbarDropdown1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Отчёты</a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown1">
                         <a class="dropdown-item" href="#">Action</a>
                         <a class="dropdown-item" href="#">Another action</a>
@@ -40,104 +36,7 @@
 </header>
 <main>
     <dib class="tab-content">
-        <div class="tab-pane w-100" id="clients">
-            <table class="table table-striped table-hover">
-                <h4 class="ml-3">Клиенты</h4>
-                <thead class="thead-light">
-                <tr>
-                    <th scope="col">Имя</th>
-                    <th scope="col">Телефон</th>
-                    <th scope="col">Комментарий</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                </tbody>
-            </table>
-            <button type="button" class="btn btn-primary mx-3 float-right" data-toggle="modal" data-target="#add_client">Добавить</button>
-        </div>
-        <div class="tab-pane w-100" id="products">
-            <table class="table table-striped table-hover">
-                <h4 class="ml-3">Продукты</h4>
-                <thead class="thead-light">
-                <tr>
-                    <th scope="col">Название</th>
-                    <th scope="col">Категория</th>
-                    <th scope="col">Цена</th>
-                    <th scope="col">Количество</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-        <div class="tab-pane w-100" id="orders">
-            <table class="table table-striped table-hover">
-                <h4 class="ml-3">Заказы</h4>
-                <thead class="thead-light">
-                <tr>
-                    <th scope="col">Дата заказа</th>
-                    <th scope="col">Дата выполнения</th>
-                    <th scope="col">Клиент</th>
-                    <th scope="col">Продукт</th>
-                    <th scope="col">Количество</th>
-                    <th scope="col">Цена</th>
-                    <th scope="col">Сумма</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
+
     </dib>
     <!-- Modal -->
     <div class="modal fade" id="add_client" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -173,7 +72,6 @@
         </div>
     </div>
 
-
 </main>
 <footer>
 
@@ -182,11 +80,13 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 <script>
-    update("clients");
+    update('clients').then(()=> document.querySelector('#tab_clients').click());
 
-    async function update(parametr){
-        let urlString = "/update_admin?area=" + parametr;
+    async function update(parameter){
+        let urlString = "/update_admin?area=" + parameter;
         let htmlText = await request(urlString);
+        document.querySelector(".tab-content").innerHTML = htmlText;
+        document.querySelector('#' + parameter).className += " active";
     }
 
     document.querySelector("#new_client").onsubmit = async (e) =>{
@@ -194,7 +94,15 @@
         let urlString = "/add-client?name=" + document.querySelector("#client_name").value + "&phone="
             + document.querySelector("#client_phone").value + "&comment="
             + document.querySelector("#client_comment").value;
-        alert(await request(urlString));
+        let answer = await request(urlString);
+        alert(answer);
+        if (answer != "КЛИЕНТ ДОБАВЛЕН"){
+            return;
+        }
+        update("clients");
+        document.querySelector("#client_name").value = "";
+        document.querySelector("#client_phone").value = "";
+        document.querySelector("#client_comment").value = "";
     }
 
     async function request(urlString) {

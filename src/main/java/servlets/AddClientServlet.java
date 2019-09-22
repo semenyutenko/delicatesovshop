@@ -35,15 +35,15 @@ public class AddClientServlet extends HttpServlet {
         String phone = req.getParameter("phone");
 
         if(!context.checkSession(session.getId())){
-            resp.getWriter().println("У ВАС НЕТ ДОСТУПА К ЭТОЙ ОПЕРАЦИИ");
+            resp.getWriter().print("У ВАС НЕТ ДОСТУПА К ЭТОЙ ОПЕРАЦИИ");
             return;
         }
         if(name.equals("")){
-            resp.getWriter().println("ВЫ НЕ УКАЗАЛИ ИМЯ КЛИЕНТА");
+            resp.getWriter().print("ВЫ НЕ УКАЗАЛИ ИМЯ КЛИЕНТА");
             return;
         }
         if(phone.equals("")){
-            resp.getWriter().println("ВЫ НЕ УКАЗАЛИ НОМЕР ТЕЛЕФОНА КЛИЕНТА");
+            resp.getWriter().print("ВЫ НЕ УКАЗАЛИ НОМЕР ТЕЛЕФОНА КЛИЕНТА");
             return;
         }
 
@@ -51,9 +51,9 @@ public class AddClientServlet extends HttpServlet {
                 name + "', '" + phone + "', '" + req.getParameter("comment") + "');";
         int updated = executor.execUpdate(update);
         if(updated != 1){
-            resp.getWriter().println("КЛИЕНТ НЕ БЫЛ ДОБАВЛЕН. ПОПРОБУЙТЕ ПОЗЖЕ");
+            resp.getWriter().print("КЛИЕНТ НЕ БЫЛ ДОБАВЛЕН. ПОПРОБУЙТЕ ПОЗЖЕ");
         }else {
-            resp.getWriter().println("КЛИЕНТ ДОБАВЛЕН");
+            resp.getWriter().print("КЛИЕНТ ДОБАВЛЕН");
         }
     }
 }

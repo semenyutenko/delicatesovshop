@@ -9,7 +9,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -35,12 +37,21 @@ public class UpdateAdminServlet extends HttpServlet {
             return;
         }
         String query = "select * from " + area + ";";
-        Map<String, Object> map = executor.execQuery(query, resultSet -> {
+        Map<String, Object> map = executor.execQuery(query, rs -> {
             Map<String, Object> result = new HashMap<>();
-            while (resultSet.next()){
-                log.info("Test: " + resultSet.get );
+            List<String> list = new ArrayList<>();
+            while (rs.next()){
+                int count = rs.getMetaData().getColumnCount();
+                StringBuilder string = new StringBuilder("<tr>");
+                for (int i = 2; i <= count; i++){
+                    string.append("<td>" + rs.getObject(i).toString() + "</td>");
+                }
+                string.append("</tr>");
+                list.add(string.toString());
             }
+            result.put(area, list);
             return result;
         });
+        resp.getWriter().print(context.getPageGenerator().getPage("update-admin.html", map));
     }
 }
