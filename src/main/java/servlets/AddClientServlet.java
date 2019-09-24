@@ -27,17 +27,23 @@ public class AddClientServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException{
-        HttpSession session = req.getSession();
         Executor executor = context.getExecutor();
         resp.setStatus(HttpServletResponse.SC_OK);
         resp.setContentType("text/html;charset=utf-8");
         String name = req.getParameter("name");
         String phone = req.getParameter("phone");
 
-        if(!context.checkSession(session.getId())){
-            resp.getWriter().print("У ВАС НЕТ ДОСТУПА К ЭТОЙ ОПЕРАЦИИ");
-            return;
+
+   //TODO Сформируй запрос правильно
+
+        Cookie[] cookies = req.getCookies();
+        for (Cookie cookie : cookies){
+            if(!context.checkSession(cookie.getValue())){
+                resp.getWriter().print("У ВАС НЕТ ДОСТУПА К ЭТОЙ ОПЕРАЦИИ");
+                return;
+            }
         }
+
         if(name.equals("")){
             resp.getWriter().print("ВЫ НЕ УКАЗАЛИ ИМЯ КЛИЕНТА");
             return;

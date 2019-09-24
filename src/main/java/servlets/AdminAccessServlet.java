@@ -2,6 +2,7 @@ package servlets;
 
 import config.Context;
 import lombok.extern.java.Log;
+import org.eclipse.jetty.server.session.DefaultSessionIdManager;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.*;
@@ -19,28 +20,22 @@ public class AdminAccessServlet extends HttpServlet {
     }
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        HttpSession session = req.getSession();
-        Cookie cookie = new Cookie("JSESSIONID", session.getId());
-        cookie.setMaxAge(86400);
-        cookie.setHttpOnly(true);
-        resp.addCookie(cookie);
-
-        if (context.checkSession(cookie.getValue())){
-            Map<String, Object> map = new HashMap<>();
-            resp.setContentType("text/html;charset=utf-8");
-            resp.setStatus(HttpServletResponse.SC_OK);
-            resp.getWriter().println(context.getPageGenerator().getPage("admin-panel.html", map));
-        }else {
-            Map<String, Object> map = new HashMap<>();
-            resp.setContentType("text/html;charset=utf-8");
-            resp.setStatus(HttpServletResponse.SC_OK);
-            resp.getWriter().println(context.getPageGenerator().getPage("admin-access.html", map));
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        Map<String, Object> map = new HashMap<>();
+        resp.setContentType("text/html;charset=utf-8");
+        resp.setStatus(HttpServletResponse.SC_OK);
+        Cookie[] cookies = req.getCookies();
+        for (Cookie cookie: cookies){
+            if (cookie.getName().equals("SESSIONID") && context.checkSession(cookie.getValue())){
+                resp.getWriter().println(context.getPageGenerator().getPage("admin-panel.html", map));
+                return;
+            }
         }
+        resp.getWriter().println(context.getPageGenerator().getPage("admin-access.html", map));
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String pass = req.getParameter("pass");
         HttpSession session = req.getSession();
         String sessionId = session.getId();
@@ -50,9 +45,11 @@ public class AdminAccessServlet extends HttpServlet {
         long currentTime;
         do{
             currentTime = new Date().getTime();
-        }while ((currentTime - lastAccessTime) / 1000 < 10);
+        }while ((currentTime - lastAccessTime) / 1000 < 5);
 
         if (context.checkPass(pass)){
+            Cookie cookie = new Cookie("SESSIONID", sessionId);
+            cookie.setMaxAge(8640000);
             context.setAdminSession(sessionId);
             resp.sendRedirect("/admin");
         }else {
