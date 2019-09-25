@@ -24,12 +24,10 @@ public class AdminAccessServlet extends HttpServlet {
         Map<String, Object> map = new HashMap<>();
         resp.setContentType("text/html;charset=utf-8");
         resp.setStatus(HttpServletResponse.SC_OK);
-        Cookie[] cookies = req.getCookies();
-        for (Cookie cookie: cookies){
-            if (cookie.getName().equals("SESSIONID") && context.checkSession(cookie.getValue())){
-                resp.getWriter().println(context.getPageGenerator().getPage("admin-panel.html", map));
-                return;
-            }
+
+        if (context.checkSession(req)){
+            resp.getWriter().println(context.getPageGenerator().getPage("admin-panel.html", map));
+            return;
         }
         resp.getWriter().println(context.getPageGenerator().getPage("admin-access.html", map));
     }
@@ -50,6 +48,7 @@ public class AdminAccessServlet extends HttpServlet {
         if (context.checkPass(pass)){
             Cookie cookie = new Cookie("SESSIONID", sessionId);
             cookie.setMaxAge(8640000);
+            resp.addCookie(cookie);
             context.setAdminSession(sessionId);
             resp.sendRedirect("/admin");
         }else {

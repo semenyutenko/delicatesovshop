@@ -4,6 +4,8 @@ import lombok.extern.java.Log;
 import service.Executor;
 import templater.PageGenerator;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import java.io.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -18,6 +20,8 @@ public class Context {
     private Crypto crypto;
     private final String SALT = "zMdB#T8712";
     private File propFile;
+    private StringBuilder adminSession;
+    private String adminPass;
 
 
     public Context(String propAddress) throws IOException {
@@ -44,7 +48,8 @@ public class Context {
             log.warning("Database wasn't connected");
         }
 
-
+        this.adminSession = new StringBuilder(properties.getProperty("adminSession"));
+        this.adminPass = properties.getProperty("adminPass");
     }
 
     public int getServerPort(){
@@ -60,17 +65,30 @@ public class Context {
     }
 
     public void setAdminSession(String session) throws IOException {
-        properties.setProperty("adminSession", "" + crypto.cryptIt(session));
+        adminSession.append(crypto.cryptIt(session));
+        properties.setProperty("adminSession", "" + adminSession.toString());
         properties.store(new FileOutputStream(propFile), null);
     }
     public void setAdminPass(String pass) throws IOException {
         properties.setProperty("adminPass", "" + crypto.cryptIt(pass));
-        properties.store(new FileOutputStream(propFile), null);    }
-    public boolean checkSession(String session){
-        return properties.getProperty("adminSession", "no session").equals("" + crypto.cryptIt(session));
+        properties.store(new FileOutputStream(propFile), null);
     }
+
+    public boolean checkSession(HttpServletRequest req){
+        Cookie[] cookies = req.getCookies();
+        if (cookies != null){
+            for (Cookie cookie : cookies){
+                if (cookie.getName().equals("SESSIONID") &&
+                        adminSession.toString().contains(String.valueOf(crypto.cryptIt(cookie.getValue())))){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     public boolean checkPass(String pass){
-        return properties.getProperty("adminPass").equals("" + crypto.cryptIt(pass));
+        return adminPass.equals("" + crypto.cryptIt(pass));
     }
 
 

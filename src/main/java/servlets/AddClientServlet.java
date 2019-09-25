@@ -33,33 +33,31 @@ public class AddClientServlet extends HttpServlet {
         String name = req.getParameter("name");
         String phone = req.getParameter("phone");
 
-
-   //TODO Сформируй запрос правильно
-
-        Cookie[] cookies = req.getCookies();
-        for (Cookie cookie : cookies){
-            if(!context.checkSession(cookie.getValue())){
-                resp.getWriter().print("У ВАС НЕТ ДОСТУПА К ЭТОЙ ОПЕРАЦИИ");
+        if (name != null){
+            if(name.equals("")){
+                resp.getWriter().print("ВЫ НЕ УКАЗАЛИ ИМЯ КЛИЕНТА");
+                return;
+            }
+        }
+        if (phone != null){
+            if(phone.equals("")){
+                resp.getWriter().print("ВЫ НЕ УКАЗАЛИ НОМЕР ТЕЛЕФОНА КЛИЕНТА");
                 return;
             }
         }
 
-        if(name.equals("")){
-            resp.getWriter().print("ВЫ НЕ УКАЗАЛИ ИМЯ КЛИЕНТА");
-            return;
-        }
-        if(phone.equals("")){
-            resp.getWriter().print("ВЫ НЕ УКАЗАЛИ НОМЕР ТЕЛЕФОНА КЛИЕНТА");
+        if(context.checkSession(req)){
+            String update = "insert into clients (client_name, client_phone, client_comment) values('" +
+                    name + "', '" + phone + "', '" + req.getParameter("comment") + "');";
+            int updated = executor.execUpdate(update);
+            if(updated != 1){
+                resp.getWriter().print("КЛИЕНТ НЕ БЫЛ ДОБАВЛЕН. ПОПРОБУЙТЕ ПОЗЖЕ");
+            }else {
+                resp.getWriter().print("КЛИЕНТ ДОБАВЛЕН");
+            }
             return;
         }
 
-        String update = "insert into clients (client_name, client_phone, client_comment) values('" +
-                name + "', '" + phone + "', '" + req.getParameter("comment") + "');";
-        int updated = executor.execUpdate(update);
-        if(updated != 1){
-            resp.getWriter().print("КЛИЕНТ НЕ БЫЛ ДОБАВЛЕН. ПОПРОБУЙТЕ ПОЗЖЕ");
-        }else {
-            resp.getWriter().print("КЛИЕНТ ДОБАВЛЕН");
-        }
+        resp.sendRedirect("/admin");
     }
 }

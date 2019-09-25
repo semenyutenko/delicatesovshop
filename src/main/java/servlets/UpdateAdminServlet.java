@@ -32,8 +32,8 @@ public class UpdateAdminServlet extends HttpServlet {
         resp.setStatus(HttpServletResponse.SC_OK);
         resp.setContentType("text/html;charset=utf-8");
 
-        if(!context.checkSession(session.getId())){
-            resp.getWriter().println("У ВАС НЕТ ДОСТУПА К ЭТОЙ ОПЕРАЦИИ");
+        if(!context.checkSession(req)){
+            resp.sendRedirect("/admin");
             return;
         }
         String query = "select * from " + area + ";";
@@ -42,7 +42,7 @@ public class UpdateAdminServlet extends HttpServlet {
             List<String> list = new ArrayList<>();
             while (rs.next()){
                 int count = rs.getMetaData().getColumnCount();
-                StringBuilder string = new StringBuilder("<tr>");
+                StringBuilder string = new StringBuilder("<tr style=\"display: block; width: 100vw;\">");
                 for (int i = 2; i <= count; i++){
                     string.append("<td>" + rs.getObject(i).toString() + "</td>");
                 }
