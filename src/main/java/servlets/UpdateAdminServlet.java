@@ -42,9 +42,13 @@ public class UpdateAdminServlet extends HttpServlet {
             List<String> list = new ArrayList<>();
             while (rs.next()){
                 int count = rs.getMetaData().getColumnCount();
-                StringBuilder string = new StringBuilder("<tr style=\"display: block; width: 100vw;\">");
+                StringBuilder string = new StringBuilder("<tr>");
                 for (int i = 2; i <= count; i++){
-                    string.append("<td>" + rs.getObject(i).toString() + "</td>");
+                    if (i == count){
+                        string.append("<td class=\"d-none d-sm-block\">" + rs.getObject(i).toString() + "</td>");
+                    }else {
+                        string.append("<td>" + rs.getObject(i).toString() + "</td>");
+                    }
                 }
                 string.append("</tr>");
                 list.add(string.toString());
