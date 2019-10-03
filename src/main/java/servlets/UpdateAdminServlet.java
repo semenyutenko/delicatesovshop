@@ -42,7 +42,8 @@ public class UpdateAdminServlet extends HttpServlet {
             List<String> list = new ArrayList<>();
             while (rs.next()){
                 int count = rs.getMetaData().getColumnCount();
-                StringBuilder string = new StringBuilder("<tr data-toggle=\"modal\" data-target=\"#add_client\" style=\"cursor: pointer\">");
+                StringBuilder string = new StringBuilder("<tr data-toggle=\"modal\" data-target=\"#edit_clients\"" +
+                        "data-id=\"" +  rs.getLong(1) + "\" style=\"cursor: pointer\" class=\"itemz\">");
                 for (int i = 2; i <= count; i++){
                     if (i == count){
                         string.append("<td class=\"d-none d-sm-block\">" + rs.getObject(i).toString() + "</td>");
