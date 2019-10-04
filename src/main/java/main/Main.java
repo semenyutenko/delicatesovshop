@@ -5,10 +5,7 @@ import lombok.extern.java.Log;
 import org.eclipse.jetty.server.Server;
 import service.Executor;
 import service.ServerBuilder;
-import servlets.AdminAccessServlet;
-import servlets.ImageCardsServlet;
-import servlets.AddClientServlet;
-import servlets.UpdateAdminServlet;
+import servlets.*;
 
 import java.sql.SQLException;
 
@@ -26,8 +23,9 @@ public class Main {
         Server server = new ServerBuilder(PORT)
                 .addServlet(new ImageCardsServlet(), ImageCardsServlet.IMAGE_CARD_PATH)
                 .addServlet(new AdminAccessServlet(context), AdminAccessServlet.ADMIN_ACCESS_PATH)
-                .addServlet(new AddClientServlet(context), AddClientServlet.NEW_CLIENT_PATH)
+                .addServlet(new AddItemServlet(context), AddItemServlet.NEW_CLIENT_PATH)
                 .addServlet(new UpdateAdminServlet(context), UpdateAdminServlet.UPDATE_ADMIN_PATh)
+                .addServlet(new SelectByIdServlet(context), SelectByIdServlet.SELECT_BY_ID_PATh)
                 .build();
 
         server.start();

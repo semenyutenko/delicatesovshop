@@ -46,9 +46,9 @@
     <div class="modal fade" id="add_client" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header bg-primary text-white">
                     <h5 class="modal-title" id="exampleModalLabel">Данные клиента</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
@@ -80,16 +80,29 @@
     <div class="modal fade" id="edit_clients" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header bg-primary text-white">
                     <h5 class="modal-title" id="modalLabel">Данные клиента</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
+                <div id="info">
+                    <div class="modal-body">
+                        <label class="h5">Имя</label>
+                        <div class="border rounded p-3">
+                            <h5>Андрей</h5>
+                        </div>
+                        <label class="h5 mt-2">Телефон</label>
+                        <div class="border rounded p-3">
+                            <h5>555555555</h5>
+                        </div>
+                        <label class="h5 mt-2">Комментарий</label>
+                        <div class="border rounded p-3">
+                            <h5>Охрененный чувак llkjoljkdfasfaefal adfal;dkflaskjf aeihoqihto qoihoqhwroih qewrqwerqwerqwerqwe qrqewr</h5>
+                        </div>
+                    </div>
+                </div>
                 <p></p>
-                <form id="edit_clients_form">
-
-                </form>
             </div>
         </div>
     </div>
@@ -105,25 +118,35 @@
         document.querySelector('#tab_clients').click();
     })
 
-    async function update(parameter){
-        let urlString = "/update_admin?area=" + parameter;
+    async function update(area){
+        let urlString = "/update-admin?area=" + area;
         let htmlText = await request(urlString);
         document.querySelector(".tab-content").innerHTML = htmlText;
-        document.querySelector('#' + parameter).className += " active";
-        let elements = document.querySelectorAll("tr[data-target=\"#edit_" + parameter + "\"]");
+        document.querySelector('#' + area).className += " active";
+        let elements = document.querySelectorAll("tr[data-target=\"#edit_" + area + "\"]");
         for (let elem of elements){
             elem.onclick = async ()=> {
-                let idRequest = "/request_id_admin?area=" + parameter + "&id=" + elem.getAttribute("data-id");
-                let htmlData = request(idRequest);
+                let idRequest = "/select-by-id?area=" + area + "&id=" + elem.getAttribute("data-id");
+                let info = request(idRequest);
             }
         }
     }
 
     document.querySelector("#add_client_form").onsubmit = async (e) =>{
         e.preventDefault();
-        let urlString = "/add-client?name=" + document.querySelector("#client_name").value + "&phone="
-            + document.querySelector("#client_phone").value + "&comment="
-            + document.querySelector("#client_comment").value;
+        let name = document.getElementById("client_name").value;
+        let phone = document.getElementById("client_phone").value;
+        let comment = document.getElementById("client_comment").value;
+
+        if (name == ""){
+            alert("ВЫ НЕ УКАЗАЛИ ИМЯ КЛИЕНТА");
+            return;
+        }
+        if (phone == ""){
+            alert("ВЫ НЕ УКАЗАЛИ НОМЕР ТЕЛЕФОНА КЛИЕНТА");
+            return
+        }
+        let urlString = "/add-item?area=clients&name=" + name + "&phone=" + phone + "&comment=" + comment;
         let answer = await request(urlString);
         alert(answer);
         if (answer != "КЛИЕНТ ДОБАВЛЕН"){
