@@ -40,33 +40,17 @@ public class SelectByIdServlet extends HttpServlet {
         log.info(query);
         Map<String, Object> map;
 
-
-
-//        switch (area){
-//            case "clients": map = executor.execQuery(query, rs -> {
-//                Map<String, Object> result = new HashMap<>();
-//                List<String> list = new ArrayList<>();
-//                while (rs.next()){
-//                    int count = rs.getMetaData().getColumnCount();
-//                    StringBuilder string = new StringBuilder("<tr data-toggle=\"modal\" data-target=\"#edit_" + area +
-//                            "\" data-id=\"" +  rs.getLong(1) + "\" style=\"cursor: pointer\" class=\"itemz\">");
-//                    for (int i = 2; i <= count; i++){
-//                        if (i == count){
-//                            string.append("<td class=\"d-none d-sm-block\">" + rs.getObject(i).toString() + "</td>");
-//                        }else {
-//                            string.append("<td>" + rs.getObject(i).toString() + "</td>");
-//                        }
-//                    }
-//                    string.append("</tr>");
-//                    list.add(string.toString());
-//                }
-//                result.put(area, list);
-//                return result;
-//                });
-//                break;
-//            default: resp.sendRedirect("/admin");
-//                return;
-//        }
+        switch (area){
+            case "clients": map = executor.execQuery(query, rs -> {
+                Map<String, Object> result = new HashMap<>();
+                rs.next();
+                result.put(area, "plug");
+                return result;
+                });
+                break;
+            default: resp.sendRedirect("/admin");
+                return;
+        }
 //        resp.getWriter().print(context.getPageGenerator().getPage("update-admin.html", map));
     }
 

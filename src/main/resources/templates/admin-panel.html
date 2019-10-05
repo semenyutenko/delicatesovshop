@@ -67,9 +67,9 @@
                                 <textarea class="form-control" id="client_comment" rows="3"></textarea>
                             </div>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                    <div class="modal-footer justify-content-start">
                         <button type="submit" class="btn btn-primary">Добавить клиента</button>
+                        <button type="button" class="btn btn-primary ml-auto" data-dismiss="modal">Закрыть</button>
                     </div>
                 </form>
             </div>
@@ -88,21 +88,28 @@
                 </div>
                 <div id="info">
                     <div class="modal-body">
-                        <label class="h5">Имя</label>
-                        <div class="border rounded p-3">
+                        <label>Имя</label>
+                        <div class="border rounded p-1">
                             <h5>Андрей</h5>
                         </div>
-                        <label class="h5 mt-2">Телефон</label>
-                        <div class="border rounded p-3">
-                            <h5>555555555</h5>
+                        <label class="mt-2">Телефон</label>
+                        <div class="border rounded d-flex">
+                            <h5 class="m-1">555555555</h5>
+                            <span class="btn-primary rounded-right ml-auto py-2 px-3" type="button">Позвонить</span>
                         </div>
-                        <label class="h5 mt-2">Комментарий</label>
-                        <div class="border rounded p-3">
+                        <label class="mt-2">Комментарий</label>
+                        <div class="border rounded p-1">
                             <h5>Охрененный чувак llkjoljkdfasfaefal adfal;dkflaskjf aeihoqihto qoihoqhwroih qewrqwerqwerqwerqwe qrqewr</h5>
                         </div>
                     </div>
+                    <div class="modal-footer justify-content-start">
+                        <div class="btn-group">
+                            <button class="btn btn-outline-danger mr-1" type="button">Удалить</button>
+                            <button class="btn btn-primary" type="button">История</button>
+                        </div>
+                        <button class="btn btn-primary ml-auto" type="button" data-dismiss="modal">Закрыть</button>
+                    </div>
                 </div>
-                <p></p>
             </div>
         </div>
     </div>
@@ -114,6 +121,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 <script>
+    let id;
     update('clients').then(()=>{
         document.querySelector('#tab_clients').click();
     })
@@ -126,7 +134,8 @@
         let elements = document.querySelectorAll("tr[data-target=\"#edit_" + area + "\"]");
         for (let elem of elements){
             elem.onclick = async ()=> {
-                let idRequest = "/select-by-id?area=" + area + "&id=" + elem.getAttribute("data-id");
+                id = elem.getAttribute("data-id");
+                let idRequest = "/select-by-id?area=" + area + "&id=" + id;
                 let info = request(idRequest);
             }
         }
