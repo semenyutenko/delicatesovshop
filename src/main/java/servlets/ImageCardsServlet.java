@@ -11,7 +11,7 @@ import java.io.*;
 
 @Log
 public class ImageCardsServlet extends HttpServlet {
-    public static final String IMAGE_CARD_PATH = "/imagecards";
+    public static final String PATH = "/imagecards";
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

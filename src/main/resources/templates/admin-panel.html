@@ -137,10 +137,11 @@
         }
         let urlString = "/add-item?area=clients&name=" + name + "&phone=" + phone + "&comment=" + comment;
         let answer = await request(urlString);
-        alert(answer);
-        if (answer != "КЛИЕНТ ДОБАВЛЕН"){
+        if (answer !== "1"){
+            alert("КЛИЕНТ НЕ БЫЛ ДОБАВЛЕН");
             return;
         }
+        alert("КЛИЕНТ ДОБАВЛЕН");
         update("clients");
         document.querySelector("#client_name").value = "";
         document.querySelector("#client_phone").value = "";

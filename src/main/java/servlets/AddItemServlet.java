@@ -9,7 +9,7 @@ import java.io.IOException;
 
 @Log
 public class AddItemServlet extends HttpServlet {
-    public static final String NEW_CLIENT_PATH = "/add-item";
+    public static final String PATH = "/add-item";
     Context context;
 
     public AddItemServlet(Context context){
@@ -39,11 +39,8 @@ public class AddItemServlet extends HttpServlet {
             String update = "insert into clients (client_name, client_phone, client_comment) values('" +
                     name + "', '" + phone + "', '" + comment + "');";
             int updated = executor.execUpdate(update);
-            if(updated != 1){
-                resp.getWriter().print("КЛИЕНТ НЕ БЫЛ ДОБАВЛЕН. ПОПРОБУЙТЕ ПОЗЖЕ");
-            }else {
-                resp.getWriter().print("КЛИЕНТ ДОБАВЛЕН");
-            }
+            log.info("UPDATED: " + updated);
+            resp.getWriter().print(updated);
             return;
         }
 

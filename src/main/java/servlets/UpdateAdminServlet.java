@@ -16,7 +16,7 @@ import java.util.Map;
 
 @Log
 public class UpdateAdminServlet extends HttpServlet {
-    public static final String UPDATE_ADMIN_PATh = "/update-admin";
+    public static final String PATH = "/update-admin";
     Context context;
 
     public UpdateAdminServlet(Context context){
@@ -49,9 +49,13 @@ public class UpdateAdminServlet extends HttpServlet {
                             "\" data-id=\"" +  rs.getLong(1) + "\" style=\"cursor: pointer\">");
                     for (int i = 2; i <= count; i++){
                         if (i == count){
-                            string.append("<td scope=\"col\" class=\"d-none d-sm-table-cell\">" + rs.getObject(i).toString() + "</td>");
+                            String comment = rs.getObject(i).toString().length() < 40 ? rs.getObject(i).toString() :
+                                    rs.getObject(i).toString().substring(0, 40) + "...";
+                            string.append("<td scope=\"col\" class=\"d-none d-sm-table-cell w-50 overflow-auto\">"
+                                    + comment + "</td>");
                         }else {
-                            string.append("<td scope=\"col\" class=\"d-table-cell\">" + rs.getObject(i).toString() + "</td>");
+                            string.append("<td scope=\"col\" class=\"d-table-cell\">"
+                                    + rs.getObject(i).toString() + "</td>");
                         }
                     }
                     string.append("</tr>");

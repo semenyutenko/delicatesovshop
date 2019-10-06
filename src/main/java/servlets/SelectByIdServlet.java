@@ -16,7 +16,7 @@ import java.util.Map;
 
 @Log
 public class SelectByIdServlet extends HttpServlet {
-    public static final String SELECT_BY_ID_PATh = "/select-by-id";
+    public static final String PATH = "/select-by-id";
     Context context;
 
     public SelectByIdServlet(Context context){
@@ -35,13 +35,14 @@ public class SelectByIdServlet extends HttpServlet {
         String id = req.getParameter("id");
         resp.setStatus(HttpServletResponse.SC_OK);
         resp.setContentType("text/html;charset=utf-8");
-        String query = "select * from " + area + " where " + area.substring(0, area.length() - 1) +
+        String queryString = "select * from " + area + " where " + area.substring(0, area.length() - 1) +
                 "_id = " + id + ";";
-        log.info(query);
+        String dellString = "/dell-item?area=" + area + "&id=" + id;
+        log.info(queryString);
         Map<String, Object> map;
 
         switch (area){
-            case "clients": map = executor.execQuery(query, rs -> {
+            case "clients": map = executor.execQuery(queryString, rs -> {
                 Map<String, Object> result = new HashMap<>();
                 rs.next();
                 String name = rs.getObject("client_name").toString();
@@ -50,6 +51,7 @@ public class SelectByIdServlet extends HttpServlet {
                 result.put("name", name);
                 result.put("phone", phone);
                 result.put("comment", comment);
+                result.put("dellString", dellString);
                 return result;
                 });
                 break;

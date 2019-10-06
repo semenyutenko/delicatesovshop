@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 @Log
 public class AdminAccessServlet extends HttpServlet {
-    public static final String ADMIN_ACCESS_PATH = "/admin";
+    public static final String PATH = "/admin";
     private Context context;
 
     public AdminAccessServlet(Context context) {
