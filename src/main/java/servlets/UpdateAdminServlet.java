@@ -46,12 +46,12 @@ public class UpdateAdminServlet extends HttpServlet {
                 while (rs.next()){
                     int count = rs.getMetaData().getColumnCount();
                     StringBuilder string = new StringBuilder("<tr data-toggle=\"modal\" data-target=\"#edit_" + area +
-                            "\" data-id=\"" +  rs.getLong(1) + "\" style=\"cursor: pointer\" class=\"itemz\">");
+                            "\" data-id=\"" +  rs.getLong(1) + "\" style=\"cursor: pointer\">");
                     for (int i = 2; i <= count; i++){
                         if (i == count){
-                            string.append("<td class=\"d-none d-sm-block\">" + rs.getObject(i).toString() + "</td>");
+                            string.append("<td scope=\"col\" class=\"d-none d-sm-table-cell\">" + rs.getObject(i).toString() + "</td>");
                         }else {
-                            string.append("<td>" + rs.getObject(i).toString() + "</td>");
+                            string.append("<td scope=\"col\" class=\"d-table-cell\">" + rs.getObject(i).toString() + "</td>");
                         }
                     }
                     string.append("</tr>");

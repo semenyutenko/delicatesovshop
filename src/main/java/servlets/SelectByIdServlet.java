@@ -44,14 +44,19 @@ public class SelectByIdServlet extends HttpServlet {
             case "clients": map = executor.execQuery(query, rs -> {
                 Map<String, Object> result = new HashMap<>();
                 rs.next();
-                result.put(area, "plug");
+                String name = rs.getObject("client_name").toString();
+                String phone = rs.getObject("client_phone").toString();
+                String comment = rs.getObject("client_comment").toString();
+                result.put("name", name);
+                result.put("phone", phone);
+                result.put("comment", comment);
                 return result;
                 });
                 break;
             default: resp.sendRedirect("/admin");
                 return;
         }
-//        resp.getWriter().print(context.getPageGenerator().getPage("update-admin.html", map));
+        resp.getWriter().print(context.getPageGenerator().getPage("admin-edit-" + area + ".html", map));
     }
 
 }

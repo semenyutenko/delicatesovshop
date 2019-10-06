@@ -91,8 +91,12 @@ public class Context {
         return adminPass.equals("" + crypto.cryptIt(pass));
     }
 
-
-
+    public String validateString(String string){
+        string = string.replace("&", "&am;");
+        string = string.replace("<", "&lt;");
+        string = string.replace(">", "&gt;");
+        return string;
+    }
 
     public void printConnectInfo() {
         try {

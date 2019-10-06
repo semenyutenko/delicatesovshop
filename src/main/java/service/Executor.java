@@ -1,10 +1,12 @@
 package service;
 
+import lombok.extern.java.Log;
+
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-
+@Log
 public class Executor {
     private final Connection connection;
 
@@ -13,8 +15,10 @@ public class Executor {
     }
 
     public int execUpdate(String update){
+        log.warning("UPDATE: " + update);
         int updated = 0;
         try (Statement statement = connection.createStatement()){
+
             statement.execute(update);
             updated = statement.getUpdateCount();
         } catch (SQLException e) {

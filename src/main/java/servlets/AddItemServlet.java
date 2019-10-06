@@ -30,13 +30,14 @@ public class AddItemServlet extends HttpServlet {
     }
 
     private void addClient(HttpServletRequest req, HttpServletResponse resp) throws IOException{
-        String name = req.getParameter("name");
-        String phone = req.getParameter("phone");
+        String name = context.validateString(req.getParameter("name"));
+        String phone = context.validateString(req.getParameter("phone"));
+        String comment = context.validateString(req.getParameter("comment"));
         Executor executor = context.getExecutor();
 
         if(context.checkSession(req)){
             String update = "insert into clients (client_name, client_phone, client_comment) values('" +
-                    name + "', '" + phone + "', '" + req.getParameter("comment") + "');";
+                    name + "', '" + phone + "', '" + comment + "');";
             int updated = executor.execUpdate(update);
             if(updated != 1){
                 resp.getWriter().print("КЛИЕНТ НЕ БЫЛ ДОБАВЛЕН. ПОПРОБУЙТЕ ПОЗЖЕ");
