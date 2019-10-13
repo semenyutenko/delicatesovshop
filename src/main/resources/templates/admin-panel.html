@@ -101,11 +101,13 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 <script>
     let id;
+    let area;
     update('clients').then(()=>{
         document.querySelector('#tab_clients').click();
     })
 
-    async function update(area){
+    async function update(ar){
+        area = ar;
         let urlString = "/update-admin?area=" + area;
         let htmlText = await request(urlString);
         document.querySelector(".tab-content").innerHTML = htmlText;
@@ -117,7 +119,15 @@
                 let idRequest = "/select-by-id?area=" + area + "&id=" + id;
                 let info = await request(idRequest);
                 document.getElementById("info").innerHTML = info;
-            }
+                let btnDell = document.getElementById("btnDell");
+                let urlString = btnDell.getAttribute("data-string");
+                btnDell.addEventListener("click", async function () {
+                    let answer = await dellItem(urlString);
+                    if (answer == "1") update(area);
+                    await document.getElementById("btnClose").click();
+                }, false);
+                }
+
         }
     }
 
@@ -146,6 +156,16 @@
         document.querySelector("#client_name").value = "";
         document.querySelector("#client_phone").value = "";
         document.querySelector("#client_comment").value = "";
+    }
+
+    async function dellItem(urlString){
+        let answer = await request(urlString);
+        if (answer !== "1"){
+            alert("НУ УДАЛОСЬ УДАЛИТЬ");
+            return answer;
+        }
+        alert("УДАЛЕНО");
+        return answer;
     }
 
     async function request(urlString) {

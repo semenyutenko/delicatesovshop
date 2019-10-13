@@ -92,9 +92,10 @@ public class Context {
     }
 
     public String validateString(String string){
-        string = string.replace("&", "&am;");
-        string = string.replace("<", "&lt;");
-        string = string.replace(">", "&gt;");
+        string = string.replace("&", "&am;").replace("<", "&lt;")
+                .replace(">", "&gt;").replace( "'", "&#x27;")
+                .replace("'","&#x60;").replace("\"", "&quot;")
+                .replace("/", "&#x2F;");
         return string;
     }
 

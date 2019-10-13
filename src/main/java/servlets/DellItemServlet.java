@@ -32,6 +32,7 @@ public class DellItemServlet extends HttpServlet {
                     "_id = " + id + ";";
             int updated = executor.execUpdate(update);
             resp.getWriter().print(updated);
+            return;
         }
 
         resp.sendRedirect("/admin");

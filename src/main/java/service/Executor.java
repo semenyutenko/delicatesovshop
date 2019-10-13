@@ -15,7 +15,6 @@ public class Executor {
     }
 
     public int execUpdate(String update){
-        log.warning("UPDATE: " + update);
         int updated = 0;
         try (Statement statement = connection.createStatement()){
 

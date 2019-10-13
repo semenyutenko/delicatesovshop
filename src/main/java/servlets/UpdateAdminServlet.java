@@ -49,8 +49,8 @@ public class UpdateAdminServlet extends HttpServlet {
                             "\" data-id=\"" +  rs.getLong(1) + "\" style=\"cursor: pointer\">");
                     for (int i = 2; i <= count; i++){
                         if (i == count){
-                            String comment = rs.getObject(i).toString().length() < 40 ? rs.getObject(i).toString() :
-                                    rs.getObject(i).toString().substring(0, 40) + "...";
+                            String comment = rs.getObject(i).toString().length() < 40 ? (rs.getObject(i).toString()) :
+                                    (rs.getObject(i).toString().substring(0, 40) + "...");
                             string.append("<td scope=\"col\" class=\"d-none d-sm-table-cell w-50 overflow-auto\">"
                                     + comment + "</td>");
                         }else {

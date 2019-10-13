@@ -38,7 +38,6 @@ public class SelectByIdServlet extends HttpServlet {
         String queryString = "select * from " + area + " where " + area.substring(0, area.length() - 1) +
                 "_id = " + id + ";";
         String dellString = "/dell-item?area=" + area + "&id=" + id;
-        log.info(queryString);
         Map<String, Object> map;
 
         switch (area){

@@ -39,7 +39,6 @@ public class AddItemServlet extends HttpServlet {
             String update = "insert into clients (client_name, client_phone, client_comment) values('" +
                     name + "', '" + phone + "', '" + comment + "');";
             int updated = executor.execUpdate(update);
-            log.info("UPDATED: " + updated);
             resp.getWriter().print(updated);
             return;
         }
