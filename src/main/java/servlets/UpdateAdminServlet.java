@@ -45,16 +45,16 @@ public class UpdateAdminServlet extends HttpServlet {
                 List<String> list = new ArrayList<>();
                 while (rs.next()){
                     int count = rs.getMetaData().getColumnCount();
-                    StringBuilder string = new StringBuilder("<tr data-toggle=\"modal\" data-target=\"#edit_" + area +
-                            "\" data-id=\"" +  rs.getLong(1) + "\" style=\"cursor: pointer\">");
+                    StringBuilder string = new StringBuilder("<tr data-toggle=\"modal\" data-target=\"#edit_"
+                            + area + "\" data-id=\"" +  rs.getLong(1) + "\" style=\"cursor: pointer\">");
                     for (int i = 2; i <= count; i++){
                         if (i == count){
                             String comment = rs.getObject(i).toString().length() < 40 ? (rs.getObject(i).toString()) :
                                     (rs.getObject(i).toString().substring(0, 40) + "...");
-                            string.append("<td scope=\"col\" class=\"d-none d-sm-table-cell w-50 overflow-auto\">"
+                            string.append("<td scope=\"col\" class=\"item d-none d-sm-table-cell w-50 overflow-auto\">"
                                     + comment + "</td>");
                         }else {
-                            string.append("<td scope=\"col\" class=\"d-table-cell\">"
+                            string.append("<td scope=\"col\" class=\"item d-table-cell\">"
                                     + rs.getObject(i).toString() + "</td>");
                         }
                     }

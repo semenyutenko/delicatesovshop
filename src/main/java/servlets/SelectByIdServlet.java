@@ -37,7 +37,6 @@ public class SelectByIdServlet extends HttpServlet {
         resp.setContentType("text/html;charset=utf-8");
         String queryString = "select * from " + area + " where " + area.substring(0, area.length() - 1) +
                 "_id = " + id + ";";
-        String dellString = "/dell-item?area=" + area + "&id=" + id;
         Map<String, Object> map;
 
         switch (area){
@@ -50,7 +49,6 @@ public class SelectByIdServlet extends HttpServlet {
                 result.put("name", name);
                 result.put("phone", phone);
                 result.put("comment", comment);
-                result.put("dellString", dellString);
                 return result;
                 });
                 break;

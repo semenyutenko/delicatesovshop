@@ -56,7 +56,7 @@
                     <div class="modal-body">
                             <div class="form-group">
                                 <label for="client_name">Имя клиента</label>
-                                <input class="form-control" type="tel" id="client_name" name="name">
+                                <input class="form-control focus" type="tel" id="client_name" name="name">
                             </div>
                             <div class="form-group">
                                 <label for="client_phone">Телефон клиента</label>
@@ -104,22 +104,42 @@
     let area;
     let mainEl = document.getElementsByTagName("main")[0];
 
+    update('clients').then(()=>{
+        document.querySelector('#tab_clients').click();
+    })
+
     mainEl.addEventListener('click', clickHandler, false );
 
     function clickHandler(e){
         let targetEll = e.target;
         let targetClass = targetEll.classList;
+        if (targetClass.contains("item")){
+            updateCard(targetEll).then();
+            return;
+        }if (targetClass.contains("dell-item")){
+            dellItem().then();
+            return;
+        }
+
     }
 
+    async function updateCard(item){
+        let parentItem = item.parentElement;
+        id = parentItem.getAttribute("data-id");
+        let idRequest = "/select-by-id?area=" + area + "&id=" + id;
+        let info = await request(idRequest);
+        document.getElementById("info").innerHTML = info;
+    }
 
-
-
-
-
-
-    update('clients').then(()=>{
-        document.querySelector('#tab_clients').click();
-    })
+    async function dellItem(){
+        let urlString = "/dell-item?area=" + area + "&id=" + id;
+        let answer = await request(urlString);
+        if (answer !== "1"){
+            alert("НЕ УДАЛОСЬ УДАЛИТЬ");
+        }
+        alert("УДАЛЕНО");
+        update(area).then(()=> document.getElementById("btnClose").click());
+    }
 
     async function update(ar){
         area = ar;
@@ -127,23 +147,6 @@
         let htmlText = await request(urlString);
         document.querySelector(".tab-content").innerHTML = htmlText;
         document.querySelector('#' + area).className += " active";
-        let elements = document.querySelectorAll("tr[data-target=\"#edit_" + area + "\"]");
-        for (let elem of elements){
-            elem.onclick = async ()=> {
-                id = elem.getAttribute("data-id");
-                let idRequest = "/select-by-id?area=" + area + "&id=" + id;
-                let info = await request(idRequest);
-                document.getElementById("info").innerHTML = info;
-                let btnDell = document.getElementById("btnDell");
-                let urlString = btnDell.getAttribute("data-string");
-                btnDell.addEventListener("click", async function () {
-                    let answer = await dellItem(urlString);
-                    if (answer == "1") update(area);
-                    await document.getElementById("btnClose").click();
-                }, false);
-                }
-
-        }
     }
 
     document.querySelector("#add_client_form").onsubmit = async (e) =>{
@@ -173,15 +176,7 @@
         document.querySelector("#client_comment").value = "";
     }
 
-    async function dellItem(urlString){
-        let answer = await request(urlString);
-        if (answer !== "1"){
-            alert("НЕ УДАЛОСЬ УДАЛИТЬ");
-            return answer;
-        }
-        alert("УДАЛЕНО");
-        return answer;
-    }
+
 
     async function request(urlString) {
         let response = await fetch(urlString);
