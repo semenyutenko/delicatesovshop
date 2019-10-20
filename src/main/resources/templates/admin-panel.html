@@ -102,6 +102,21 @@
 <script>
     let id;
     let area;
+    let mainEl = document.getElementsByTagName("main")[0];
+
+    mainEl.addEventListener('click', clickHandler, false );
+
+    function clickHandler(e){
+        let targetEll = e.target;
+        let targetClass = targetEll.classList;
+    }
+
+
+
+
+
+
+
     update('clients').then(()=>{
         document.querySelector('#tab_clients').click();
     })
@@ -161,7 +176,7 @@
     async function dellItem(urlString){
         let answer = await request(urlString);
         if (answer !== "1"){
-            alert("НУ УДАЛОСЬ УДАЛИТЬ");
+            alert("НЕ УДАЛОСЬ УДАЛИТЬ");
             return answer;
         }
         alert("УДАЛЕНО");
