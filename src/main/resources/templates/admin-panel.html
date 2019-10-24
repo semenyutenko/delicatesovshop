@@ -112,20 +112,22 @@
 
     function clickHandler(e){
         let targetEll = e.target;
-        let targetClass = targetEll.classList;
-        if (targetClass.contains("item")){
+        if (targetEll.matches('.item')){
             updateCard(targetEll).then();
             return;
-        }if (targetClass.contains("dell-item")){
+        }if (targetEll.matches('.dell-item')){
             dellItem().then();
             return;
+        }
+        if (targetEll.matches('#info-panel, #info-panel *:not([type="button"])')){
+            document.getElementById("info-panel").className = "d-none";
+            document.getElementById("edit_client_form").className = "d-block";
         }
 
     }
 
     async function updateCard(item){
-        let parentItem = item.parentElement;
-        id = parentItem.getAttribute("data-id");
+        id = item.parentElement.getAttribute("data-id");
         let idRequest = "/select-by-id?area=" + area + "&id=" + id;
         let info = await request(idRequest);
         document.getElementById("info").innerHTML = info;
