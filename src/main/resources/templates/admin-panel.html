@@ -115,13 +115,13 @@
         if (targetEll.matches('.item')){
             updateCard(targetEll).then();
             return;
-        }if (targetEll.matches('.dell-item')){
+        }if (targetEll.matches('#dellSubmit')){
             dellItem().then();
             return;
         }
         if (targetEll.matches('#info-panel, #info-panel *:not([type="button"])')){
-            document.getElementById("info-panel").className = "d-none";
-            document.getElementById("edit_client_form").className = "d-block";
+            toggleToEditItem();
+            return;
         }
 
     }
@@ -141,6 +141,12 @@
         }
         alert("УДАЛЕНО");
         update(area).then(()=> document.getElementById("btnClose").click());
+    }
+
+    function toggleToEditItem(){
+        document.getElementById("info-card").className = "d-none";
+        document.getElementById("edit-card").className = "";
+        document.getElementById("modalLabel").textContent = "Изменение данных клиента";
     }
 
     async function update(ar){
