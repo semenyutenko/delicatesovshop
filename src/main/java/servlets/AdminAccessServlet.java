@@ -2,9 +2,6 @@ package servlets;
 
 import config.Context;
 import lombok.extern.java.Log;
-import org.eclipse.jetty.server.session.DefaultSessionIdManager;
-
-import javax.servlet.ServletException;
 import javax.servlet.http.*;
 import java.io.IOException;
 import java.util.Date;

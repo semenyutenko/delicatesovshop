@@ -27,6 +27,7 @@ public class Main {
                 .addServlet(new UpdateAdminServlet(context), UpdateAdminServlet.PATH)
                 .addServlet(new SelectByIdServlet(context), SelectByIdServlet.PATH)
                 .addServlet(new DellItemServlet(context), DellItemServlet.PATH)
+                .addServlet(new EditItemServlet(context), EditItemServlet.PATH)
                 .build();
 
         server.start();

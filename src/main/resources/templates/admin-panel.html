@@ -55,16 +55,16 @@
                 <form id="add_client_form">
                     <div class="modal-body">
                             <div class="form-group">
-                                <label for="client_name">Имя клиента</label>
-                                <input class="form-control focus" type="tel" id="client_name" name="name">
+                                <label>Имя клиента</label>
+                                <input class="form-control focus" type="tel" id="add_client_name" name="name">
                             </div>
                             <div class="form-group">
-                                <label for="client_phone">Телефон клиента</label>
-                                <input class="form-control" type="tel" id="client_phone" name="phone">
+                                <label>Телефон клиента</label>
+                                <input class="form-control" type="tel" id="add_client_phone" name="phone">
                             </div>
                             <div class="form-group">
-                                <label for="client_comment">Комментарий</label>
-                                <textarea class="form-control" id="client_comment" rows="3"></textarea>
+                                <label>Комментарий</label>
+                                <textarea class="form-control" id="add_client_comment" rows="3"></textarea>
                             </div>
                     </div>
                     <div class="modal-footer justify-content-start">
@@ -113,7 +113,8 @@
     function clickHandler(e){
         let targetEll = e.target;
         if (targetEll.matches('.item')){
-            updateCard(targetEll).then();
+            id = targetEll.parentElement.getAttribute("data-id");
+            updateCard().then();
             return;
         }if (targetEll.matches('#dellSubmit')){
             dellItem().then();
@@ -123,11 +124,14 @@
             toggleToEditItem();
             return;
         }
+        if (targetEll.matches('#editSubmit')){
+            editSubmit()
+            return;
+        }
 
     }
 
-    async function updateCard(item){
-        id = item.parentElement.getAttribute("data-id");
+    async function updateCard(){
         let idRequest = "/select-by-id?area=" + area + "&id=" + id;
         let info = await request(idRequest);
         document.getElementById("info").innerHTML = info;
@@ -149,6 +153,26 @@
         document.getElementById("modalLabel").textContent = "Изменение данных клиента";
     }
 
+    async function editSubmit(){
+        let name = document.getElementById("edit_client_name").value;
+        let phone = document.getElementById("edit_client_phone").value;
+        let comment = document.getElementById("edit_client_comment").value;
+
+        if(!validClientsForm(name, phone)) return;
+
+        let urlString = "/edit-item?area=" + area + "&id=" + id + "&name=" + name + "&phone="
+            + phone + "&comment=" + comment;
+
+        let answer = await request(urlString);
+        if (answer !== "1"){
+            alert("НЕ УДАЛОСЬ ИЗМЕНИТЬ ДАННЫЕ");
+            return;
+        }
+        alert("ДАННЫЕ ИЗМЕНЕНЫ");
+        update("clients");
+
+    }
+
     async function update(ar){
         area = ar;
         let urlString = "/update-admin?area=" + area;
@@ -159,18 +183,12 @@
 
     document.querySelector("#add_client_form").onsubmit = async (e) =>{
         e.preventDefault();
-        let name = document.getElementById("client_name").value;
-        let phone = document.getElementById("client_phone").value;
-        let comment = document.getElementById("client_comment").value;
+        let name = document.getElementById("add_client_name").value;
+        let phone = document.getElementById("add_client_phone").value;
+        let comment = document.getElementById("add_client_comment").value;
 
-        if (name == ""){
-            alert("ВЫ НЕ УКАЗАЛИ ИМЯ КЛИЕНТА");
-            return;
-        }
-        if (phone == ""){
-            alert("ВЫ НЕ УКАЗАЛИ НОМЕР ТЕЛЕФОНА КЛИЕНТА");
-            return
-        }
+        if(!validClientsForm(name, phone)) return;
+
         let urlString = "/add-item?area=clients&name=" + name + "&phone=" + phone + "&comment=" + comment;
         let answer = await request(urlString);
         if (answer !== "1"){
@@ -179,9 +197,9 @@
         }
         alert("КЛИЕНТ ДОБАВЛЕН");
         update("clients");
-        document.querySelector("#client_name").value = "";
-        document.querySelector("#client_phone").value = "";
-        document.querySelector("#client_comment").value = "";
+        document.querySelector("#add_client_name").value = "";
+        document.querySelector("#add_client_phone").value = "";
+        document.querySelector("#add_client_comment").value = "";
     }
 
 
@@ -190,6 +208,18 @@
         let response = await fetch(urlString);
         let result = await response.text();
         return result;
+    }
+
+    function validClientsForm(name, phone) {
+        if (name == ""){
+            alert("ВЫ НЕ УКАЗАЛИ ИМЯ КЛИЕНТА");
+            return false;
+        }
+        if (phone == ""){
+            alert("ВЫ НЕ УКАЗАЛИ НОМЕР ТЕЛЕФОНА КЛИЕНТА");
+            return false;
+        }
+        return true;
     }
 </script>
 </body>
