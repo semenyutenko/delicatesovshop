@@ -26,6 +26,7 @@ public class EditItemServlet extends HttpServlet {
         resp.setContentType("text/html;charset=utf-8");
         String area = req.getParameter("area");
         id = req.getParameter("id");
+
         if(!context.checkSession(req)){
             resp.sendRedirect("/admin");
             return;
@@ -44,8 +45,8 @@ public class EditItemServlet extends HttpServlet {
         String comment = context.validateString(req.getParameter("comment"));
         Executor executor = context.getExecutor();
 
-        String update = "update clients set client_name=" + name + ", client_phone=" + phone + ", client_comment=" + comment
-                + " where client_id=" + id + ";";
+        String update = "update clients set client_name='" + name + "', client_phone='" + phone + "', client_comment='" + comment
+                + "' where client_id='" + id + "';";
         int updated = executor.execUpdate(update);
         resp.getWriter().print(updated);
         return;
