@@ -1,4 +1,4 @@
-.hat {background: black url("assets/img/hat-image.jpg");
+.hat {background: black url("../img/hat-image.jpg");
     background-size: 110vmin 110vmin;
     background-position: center;
     background-repeat: no-repeat;
@@ -17,4 +17,18 @@
 .sticky-top {
     margin-right: inherit !important;
     padding-right: inherit !important;
+}
+
+.nav-item{
+    font-size: 1.2em;
+    font-weight: 600;
+}
+
+.nav-item active{
+    font-weight: 700;
+}
+
+.nav-item:hover{
+    cursor: pointer;
+    font-weight: 700;
 }

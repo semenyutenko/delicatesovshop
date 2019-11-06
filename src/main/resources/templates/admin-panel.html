@@ -2,7 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">    <title>Title</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="assets/css/shop.css">
+    <title>Title</title>
 </head>
 <body class="container">
 <header>
@@ -11,27 +13,18 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-expand d-sm-block" id="navbar1">
-            <ul class="navbar-nav nav mr-auto">
-                <li class="nav-item">
-                    <a id="tab_clients" class="nav-link" href="#clients" data-toggle="tab">Клиенты</a>
+            <ul class="navbar-nav nav mx-auto">
+                <li class="nav-item text-white ml-1 p-1" data-tab="clients">
+                    Клиенты
                 </li>
-                <li class="nav-item">
-                    <a id="tab_products" class="nav-link" href="#products" data-toggle="tab">Продукты</a>
+                <li class="nav-item text-white ml-1 p-1" data-tab="products">
+                    Продукты
                 </li>
-                <li class="nav-item">
-                    <a id="tab_orders" class="nav-link" href="#orders" data-toggle="tab">Заказы</a>
+                <li class="nav-item text-white ml-1 p-1" data-tab="orders">
+                    Заказы
                 </li>
-                <li class="nav-item">
-                    <a id="tab_categories" class="nav-link" href="#">Категории</a>
-                </li>
-                <li class="nav-item dropdown">
-                    <a id="tab_reports" class="nav-link dropdown-toggle" href="#" id="navbarDropdown1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Отчёты</a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown1"  style="z-index: 999">
-                        <a class="dropdown-item" href="#">Action</a>
-                        <a class="dropdown-item" href="#">Another action</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">Something else here</a>
-                    </div>
+                <li class="nav-item text-white ml-1 p-1" data-tab="categories">
+                    Категории
                 </li>
             </ul>
         </div>
@@ -101,17 +94,18 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 <script>
     let id;
-    let area;
+    let area = "clients";
     let mainEl = document.getElementsByTagName("main")[0];
 
-    update('clients').then(()=>{
-        document.querySelector('#tab_clients').click();
-    })
+    update('clients');
 
     mainEl.addEventListener('click', clickHandler, false );
 
     function clickHandler(e){
         let targetEll = e.target;
+        if (targetEll.matches('.nav-item')){
+            update(targetEll.getAttribute('data-tab'))
+        }
         if (targetEll.matches('.item')){
             id = targetEll.parentElement.getAttribute("data-id");
             updateCard().then();
@@ -174,11 +168,12 @@
     }
 
     async function update(ar){
+        // document.querySelector('#' + area).className = "tab-pane w-100";
         area = ar;
         let urlString = "/update-admin?area=" + area;
         let htmlText = await request(urlString);
         document.querySelector(".tab-content").innerHTML = htmlText;
-        document.querySelector('#' + area).className += " active";
+        document.querySelector('#' + area).className = "tab-pane w-100 active";
     }
 
     document.querySelector("#add_client_form").onsubmit = async (e) =>{
