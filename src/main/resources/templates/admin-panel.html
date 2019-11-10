@@ -95,16 +95,17 @@
 <script>
     let id;
     let area = "clients";
-    let mainEl = document.getElementsByTagName("main")[0];
+    let bodyEl = document.getElementsByTagName("body")[0];
 
     update('clients');
 
-    mainEl.addEventListener('click', clickHandler, false );
+    bodyEl.addEventListener('click', clickHandler, false );
 
     function clickHandler(e){
         let targetEll = e.target;
         if (targetEll.matches('.nav-item')){
-            update(targetEll.getAttribute('data-tab'))
+            update(targetEll.getAttribute('data-tab'));
+            return;
         }
         if (targetEll.matches('.item')){
             id = targetEll.parentElement.getAttribute("data-id");
@@ -168,11 +169,11 @@
     }
 
     async function update(ar){
-        // document.querySelector('#' + area).className = "tab-pane w-100";
-        area = ar;
-        let urlString = "/update-admin?area=" + area;
+        let urlString = "/update-admin?area=" + ar;
         let htmlText = await request(urlString);
         document.querySelector(".tab-content").innerHTML = htmlText;
+        document.querySelector('#' + area).className = "tab-pane w-100";
+        area = ar;
         document.querySelector('#' + area).className = "tab-pane w-100 active";
     }
 

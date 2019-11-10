@@ -35,39 +35,34 @@ public class UpdateAdminServlet extends HttpServlet {
         resp.setStatus(HttpServletResponse.SC_OK);
         resp.setContentType("text/html;charset=utf-8");
         String query = "select * from " + area + ";";
-        Map<String, Object> map;
-
-
-
-        switch (area){
-            case "clients": map = executor.execQuery(query, rs -> {
-                Map<String, Object> result = new HashMap<>();
-                List<String> list = new ArrayList<>();
-                while (rs.next()){
-                    int count = rs.getMetaData().getColumnCount();
-                    StringBuilder string = new StringBuilder("<tr data-toggle=\"modal\" data-target=\"#edit_"
-                            + area + "\" data-id=\"" +  rs.getLong(1) + "\" style=\"cursor: pointer\">");
-                    for (int i = 2; i <= count; i++){
-                        if (i == count){
-                            String comment = rs.getObject(i).toString().length() < 40 ? (rs.getObject(i).toString()) :
-                                    (rs.getObject(i).toString().substring(0, 40) + "...");
-                            string.append("<td scope=\"col\" class=\"item d-none d-sm-table-cell w-50 overflow-auto\">"
-                                    + comment + "</td>");
-                        }else {
-                            string.append("<td scope=\"col\" class=\"item d-table-cell\">"
-                                    + rs.getObject(i).toString() + "</td>");
-                        }
+        Map<String, Object> map = executor.execQuery(query, rs -> {
+            Map<String, Object> result = new HashMap<>();
+            result.put("clients", new ArrayList<>());
+            result.put("products", new ArrayList<>());
+            result.put("orders", new ArrayList<>());
+            result.put("categories", new ArrayList<>());
+            List<String> list = new ArrayList<>();
+            while (rs.next()){
+                int count = rs.getMetaData().getColumnCount();
+                StringBuilder string = new StringBuilder("<tr data-toggle=\"modal\" data-target=\"#edit_"
+                        + area + "\" data-id=\"" +  rs.getLong(1) + "\" style=\"cursor: pointer\">");
+                for (int i = 2; i <= count; i++){
+                    if (i == count){
+                        String comment = rs.getObject(i).toString().length() < 40 ? (rs.getObject(i).toString()) :
+                                (rs.getObject(i).toString().substring(0, 40) + "...");
+                        string.append("<td scope=\"col\" class=\"item d-none d-sm-table-cell w-50 overflow-auto\">"
+                                + comment + "</td>");
+                    }else {
+                        string.append("<td scope=\"col\" class=\"item d-table-cell\">"
+                                + rs.getObject(i).toString() + "</td>");
                     }
-                    string.append("</tr>");
-                    list.add(string.toString());
                 }
-                result.put(area, list);
-                return result;
-                });
-                break;
-            default: resp.sendRedirect("/admin");
-                return;
-        }
+                string.append("</tr>");
+                list.add(string.toString());
+            }
+            result.put(area, list);
+            return result;
+        });
         resp.getWriter().print(context.getPageGenerator().getPage("update-admin.html", map));
     }
 
