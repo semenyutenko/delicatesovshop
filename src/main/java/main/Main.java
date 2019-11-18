@@ -39,8 +39,14 @@ public class Main {
         Executor executor = context.getExecutor();
         executor.execUpdate("create table if not exists public.clients " +
                 "(client_id serial NOT NULL, client_name character varying(250) NOT NULL, " +
-                "client_phone character varying(20) NOT NULL, client_comment character varying, " +
+                "client_phone character varying(20) NOT NULL, client_comment text, " +
                 "PRIMARY KEY (client_id))");
+        executor.execUpdate("create table if not exists public.products " +
+                "(product_id serial NOT NULL, product_title character varying(250) NOT NULL, " +
+                "product_category character varying(50) NOT NULL, product_price numeric NOT NULL," +
+                " product_amount numeric NOT NULL, product_description text, " +
+                "PRIMARY KEY (product_id))");
+
     }
 
 }

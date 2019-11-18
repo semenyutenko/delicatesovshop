@@ -61,7 +61,7 @@
                             </div>
                     </div>
                     <div class="modal-footer justify-content-start">
-                        <button type="submit" class="btn btn-primary">Добавить клиента</button>
+                        <button id="addClientSubmit" type="submit" class="btn btn-primary">Добавить клиента</button>
                         <button type="button" class="btn btn-primary ml-auto" data-dismiss="modal">Закрыть</button>
                     </div>
                 </form>
@@ -85,6 +85,66 @@
             </div>
         </div>
     </div>
+
+    <!-- Modal add-products -->
+    <div class="modal fade" id="add_product" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title">Данные продукта</h5>
+                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form id="add_product_form">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label>Название продукта</label>
+                            <input class="form-control focus" id="add_product_title" name="title">
+                        </div>
+                        <div class="form-group">
+                            <label>Категория</label>
+                            <input class="form-control" id="add_product_category" name="category">
+                        </div>
+                        <div class="form-group">
+                            <label>Цена</label>
+                            <input class="form-control" id="add_product_price" name="price">
+                        </div>
+                        <div class="form-group">
+                            <label>Количество</label>
+                            <input class="form-control" id="add_product_amount" name="price">
+                        </div>
+                        <div class="form-group">
+                            <label>Описание</label>
+                            <textarea class="form-control" id="add_product_description" rows="3"></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer justify-content-start">
+                        <button type="submit" class="btn btn-primary">Добавить продукт</button>
+                        <button type="button" class="btn btn-primary ml-auto" data-dismiss="modal">Закрыть</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!--    Modal edit products -->
+    <div class="modal fade" id="edit_product" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title" id="modalLabel">Данные клиента</h5>
+                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div id="info">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
 </main>
 <footer>
 
@@ -120,7 +180,12 @@
             return;
         }
         if (targetEll.matches('#editSubmit')){
-            editSubmit()
+            editSubmit();
+            return;
+        }
+        if (targetEll.matches('#addClientSubmit')){
+            e.preventDefault();
+            addClientSubmit();
             return;
         }
 
@@ -177,8 +242,7 @@
         document.querySelector('#' + area).className = "tab-pane w-100 active";
     }
 
-    document.querySelector("#add_client_form").onsubmit = async (e) =>{
-        e.preventDefault();
+    async function addClientSubmit(){
         let name = document.getElementById("add_client_name").value;
         let phone = document.getElementById("add_client_phone").value;
         let comment = document.getElementById("add_client_comment").value;
