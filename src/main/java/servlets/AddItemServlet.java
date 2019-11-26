@@ -28,7 +28,9 @@ public class AddItemServlet extends HttpServlet {
 
         switch (area){
             case "clients": addClient(req, resp);
-            break;
+                break;
+            case "products": addProduct(req, resp);
+                break;
         }
 
     }
@@ -41,6 +43,21 @@ public class AddItemServlet extends HttpServlet {
 
         String update = "insert into clients (client_name, client_phone, client_comment) values('" +
                 name + "', '" + phone + "', '" + comment + "');";
+        int updated = executor.execUpdate(update);
+        resp.getWriter().print(updated);
+        return;
+    }
+
+    private void addProduct(HttpServletRequest req, HttpServletResponse resp) throws IOException{
+        String title = context.validateString(req.getParameter("title"));
+        String category = context.validateString(req.getParameter("category"));
+        String price = context.validateString(req.getParameter("price"));
+        String amount = context.validateString(req.getParameter("amount"));
+        String description = context.validateString(req.getParameter("description"));
+        Executor executor = context.getExecutor();
+
+        String update = "insert into products (product_title, product_category, product_price, product_amount, product_description)"
+                + " values('" + title + "', '" + category + "', '" + price + "', '" + amount + "', '" + description + "');";
         int updated = executor.execUpdate(update);
         resp.getWriter().print(updated);
         return;

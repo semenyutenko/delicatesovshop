@@ -69,16 +69,10 @@
         </div>
     </div>
 
-<!--    Modal edit clients -->
+<!--    Modal edit-->
     <div class="modal fade" id="edit_clients" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                <div class="modal-header bg-primary text-white">
-                    <h5 class="modal-title" id="modalLabel">Данные клиента</h5>
-                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
                 <div id="info">
 
                 </div>
@@ -127,24 +121,6 @@
             </div>
         </div>
     </div>
-
-    <!--    Modal edit products -->
-    <div class="modal fade" id="edit_product" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header bg-primary text-white">
-                    <h5 class="modal-title" id="modalLabel">Данные клиента</h5>
-                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div id="info">
-
-                </div>
-            </div>
-        </div>
-    </div>
-
 </main>
 <footer>
 
@@ -185,6 +161,10 @@
         }
         if (targetEll.matches('#addClientSubmit')){
             addClientSubmit();
+            return;
+        }
+        if(targetEll.matches('#addProductSubmit')){
+            addProductSubmit();
             return;
         }
 
@@ -242,9 +222,9 @@
     }
 
     async function addClientSubmit(){
-        let name = document.getElementById("add_client_name").value;
-        let phone = document.getElementById("add_client_phone").value;
-        let comment = document.getElementById("add_client_comment").value;
+        let name = $('#add_client_name').val();
+        let phone = $('#add_client_phone').val();
+        let comment = $('#add_client_comment').val();
 
         if(!validClientsForm(name, phone)) return;
 
@@ -255,10 +235,29 @@
             return;
         }
         alert("КЛИЕНТ ДОБАВЛЕН");
-        update("clients");
-        document.querySelector("#add_client_name").value = "";
-        document.querySelector("#add_client_phone").value = "";
-        document.querySelector("#add_client_comment").value = "";
+        update(area);
+        $('input.form-control').val("");
+    }
+
+    async function addProductSubmit(){
+        let title = $('#add_product_title').val();
+        let category = $('#add_product_category').val();
+        let price = $('#add_product_price').val();
+        let amount = $('#add_product_amount').val();
+        let description =$('#add_product_description').val();
+
+        if(!validateProductsForm(title, category, price, amount, description)) return;
+
+        let urlString = "/add-item?area=products&title=" + title + "&category=" + category + "&price=" + price +
+                "&amount=" + amount + "&description=" + description;
+        let answer = await request(urlString);
+        if (answer !== "1"){
+            alert("ПРОДУКТ НЕ БЫЛ ДОБАВЛЕН");
+            return ;
+        }
+        alert("ПРОДУКТ ДОБАВЛЕН");
+        update(area);
+        $('input.form-control').val("");
     }
 
 
@@ -276,6 +275,30 @@
         }
         if (phone == ""){
             alert("ВЫ НЕ УКАЗАЛИ НОМЕР ТЕЛЕФОНА КЛИЕНТА");
+            return false;
+        }
+        return true;
+    }
+
+    function validateProductsForm(title, category, price, amount, description) {
+        if(title == ""){
+            alert("ВЫ НЕ УКАЗАЛИ НАЗВАНИЕ ПРОДУКТА");
+            return false;
+        }
+        if(category == ""){
+            alert("ВЫ НЕ УКАЗАЛИ КАТЕГОРИЮ ПРОДУКТА");
+            return false;
+        }
+        if(price == ""){
+            alert("ВЫ НЕ УКАЗАЛИ ЦЕНУ ПРОДУКТА");
+            return false;
+        }
+        if(amount == ""){
+            alert("ВЫ НЕ УКАЗАЛИ КОЛИЧЕСТВО ПРОДУКТА");
+            return false;
+        }
+        if(description == ""){
+            alert("ВЫ НЕ УКАЗАЛИ ОПИСАНИЕ ПРОДУКТА");
             return false;
         }
         return true;
