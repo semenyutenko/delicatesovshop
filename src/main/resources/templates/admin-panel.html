@@ -236,7 +236,7 @@
         }
         alert("КЛИЕНТ ДОБАВЛЕН");
         update(area);
-        $('input.form-control').val("");
+        $('.form-control').val("");
     }
 
     async function addProductSubmit(){
@@ -257,7 +257,7 @@
         }
         alert("ПРОДУКТ ДОБАВЛЕН");
         update(area);
-        $('input.form-control').val("");
+        $('.form-control').val("");
     }
 
 
@@ -293,8 +293,16 @@
             alert("ВЫ НЕ УКАЗАЛИ ЦЕНУ ПРОДУКТА");
             return false;
         }
+        if(!parseFloat(price)){
+            alert("УКАЖИТЕ ЦЕНУ ЧИСЛОМ");
+            return false;
+        }
         if(amount == ""){
             alert("ВЫ НЕ УКАЗАЛИ КОЛИЧЕСТВО ПРОДУКТА");
+            return false;
+        }
+        if(!parseFloat(amount)){
+            alert("УКАЖИТЕ КОЛИЧЕСТВО ЧИСЛОМ");
             return false;
         }
         if(description == ""){
