@@ -1,0 +1,54 @@
+html, body{
+    margin: 0;
+    padding: 0;
+    font-size: 100%;
+}
+.container{
+    max-width: 700px;
+    margin: auto;
+    height: 100vh;
+    /*padding: 5px;*/
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 5% 1fr 10%;
+}
+.pnl{
+    padding: 3px 10px 3px 10px;
+    box-sizing: border-box;
+}
+.menu, .action{
+    background-color: #59ADFF;
+    display: grid;
+    color: white;
+}
+.content{
+    background-color: white;
+}
+
+.menu{
+    grid-template-columns: [menu] 75% [search] 25%;
+    grid-template-rows: 1fr;
+    grid-gap: 2px;
+}
+#menu{
+    grid-column: menu;
+    display: grid;
+    grid-template-columns: auto auto auto auto;
+    grid-template-rows: 100%;
+    align-items: end;
+}
+#menu>img{
+    display: none;
+}
+.search{
+    padding: 2px;
+    display: grid;
+    grid-template-columns: [input] 80% [img] 20%;
+    grid-template-rows: 25px;
+    grid-gap: 4px;
+    align-items: end;
+}
+.menu img{
+    object-fit: cover;
+    height: 100%;
+}
