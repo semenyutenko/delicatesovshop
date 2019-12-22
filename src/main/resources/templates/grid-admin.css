@@ -10,7 +10,7 @@ html, body{
     /*padding: 5px;*/
     display: grid;
     grid-template-columns: 1fr;
-    grid-template-rows: 6% 1fr 10%;
+    grid-template-rows: 6% 1fr 8%;
 }
 .pnl{
     padding: 3px 10px 3px 10px;
@@ -18,7 +18,7 @@ html, body{
     font-size: 2.7vmin;
     font-family: Arial;
 }
-.menu, .action{
+.selection, .action{
     background-color: #59ADFF;
     display: grid;
     color: white;
@@ -27,7 +27,7 @@ html, body{
     background-color: white;
 }
 
-.menu{
+.selection{
     grid-template-columns: [menu] 75% [search] 25%;
     grid-template-rows: 100%;
     grid-gap: 2px;
@@ -37,7 +37,7 @@ html, body{
     grid-gap: 2px;
     grid-column: menu;
     display: grid;
-    grid-template-columns: auto auto auto auto;
+    grid-template-columns: repeat(4, auto);
     grid-template-rows: 100%;
     align-items: end;
 }
@@ -52,10 +52,50 @@ html, body{
     grid-gap: 4px;
     align-items: end;
 }
-.menu img{
+.selection img{
+    grid-column: img;
     object-fit: cover;
     height: 80%;
 }
-.menu input{
+.selection input{
     height:60%;
+}
+.btn:not(.selected):hover{
+    cursor: pointer;
+    filter: drop-shadow(0px 0px 0.03rem white);
+}
+.btn:not(.selected):active{
+    filter: drop-shadow(0px 0px 0.1rem black);
+}
+
+.selected{
+    font-weight: bold;
+    text-decoration: underline;
+}
+.action{
+    display: grid;
+    grid-template-columns: [btn1] 1fr [btn2] 1fr [btn3] 1fr [space] 1fr [btn4] 1fr;
+    align-items: center;
+    grid-gap: 6px;
+}
+.action .btn{
+    /*border: 2px solid white;*/
+    border-radius: 4px;
+    height: 60%;
+    text-align: center;
+    display: grid;
+    place-items: center;
+    background-color: rgba(2, 80, 160, 0.61);
+}
+#btn1{
+    grid-column: btn1;
+}
+#btn2{
+    grid-column: btn2;
+}
+#btn3{
+    grid-column: btn3;
+}
+#btn4{
+    grid-column: btn4;
 }

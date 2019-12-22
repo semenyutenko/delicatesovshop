@@ -1,0 +1,13 @@
+@media all and (max-width: 450px){
+
+    .selection {
+        grid-template-columns: [menu] 90% [search] 10%;
+    }
+    .search {
+        grid-template-columns: [img] 100%;
+    }
+    .selection input{
+        display: none;
+    }
+
+}
