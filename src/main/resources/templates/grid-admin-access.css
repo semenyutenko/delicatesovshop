@@ -38,6 +38,7 @@ input{
     display: grid;
     place-items: center;
     box-sizing: content-box;
+    user-select: none;
 }
 .cancel{
     grid-area: cancel;
