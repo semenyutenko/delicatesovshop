@@ -1,13 +1,30 @@
 @media all and (max-width: 450px){
 
     .selection {
-        grid-template-columns: [menu] 90% [search] 10%;
+        grid-template-columns: [menu] 1fr [search] 1fr;
     }
+
+    .item{
+        display: none;
+    }
+
+    #menu>img{
+        display: block;
+        grid-column-start: 1;
+    }
+
     .search {
-        grid-template-columns: [img] 100%;
+        grid-template-columns: [img] auto;
+        grid-template-rows: 100%;
     }
     .selection input{
         display: none;
     }
-
+    .action{
+        grid-template-columns: [btn1] 3fr [space] 1fr [btn4] 120px;
+        grid-gap: 3px;
+    }
+    .selection img{
+        height: 95%;
+    }
 }
